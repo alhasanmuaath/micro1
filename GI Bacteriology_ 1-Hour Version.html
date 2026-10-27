@@ -1,0 +1,961 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>GI Bacteriology: 1-Hour Version</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Cairo:wght@400;600;700&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+/* Layout concept: one 2-hour study block as a page. Timeline clock, then summary plates,
+   a build-it-yourself drawing, and flip cards. Arabic explanations sit in RTL panels beside English content. */
+:root{
+  --bg:#EAF0F4; --surface:#FFFFFF; --surface2:#F3F7FA; --ink:#0B2030; --muted:#566B7A; --line:#D2DEE6; --dot:#C9D7E0;
+  --accent:#0A8F9C; --hot:#E5483A; --ok:#1E9A66; --warn:#C98300;
+  --m-rect:#0A8F9C; --m-eo:#D98A06; --m-io:#D6335F; --m-ta:#4A5BD8;
+  --shadow:0 1px 2px rgba(11,32,48,.06),0 10px 28px rgba(11,32,48,.08);
+  --f-display:'Bricolage Grotesque','Avenir Next','Segoe UI',system-ui,sans-serif;
+  --f-body:'Instrument Sans','Segoe UI',system-ui,sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,Menlo,monospace;
+  --f-ar:'Cairo','Segoe UI','Noto Naskh Arabic',Tahoma,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#08131B; --surface:#0F1E29; --surface2:#142632; --ink:#E7F1F6; --muted:#8FA6B5; --line:#203442; --dot:#173040;
+  --accent:#38C7D4; --hot:#FF6B5B; --ok:#4FD39B; --warn:#F2B545;
+  --m-rect:#38C7D4; --m-eo:#F5B83D; --m-io:#FF6F91; --m-ta:#8E9BFF;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.35); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#08131B; --surface:#0F1E29; --surface2:#142632; --ink:#E7F1F6; --muted:#8FA6B5; --line:#203442; --dot:#173040;
+  --accent:#38C7D4; --hot:#FF6B5B; --ok:#4FD39B; --warn:#F2B545;
+  --m-rect:#38C7D4; --m-eo:#F5B83D; --m-io:#FF6F91; --m-ta:#8E9BFF;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.35); color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--f-body);
+  background-image:radial-gradient(var(--dot) 1px,transparent 1.2px);background-size:22px 22px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 80px}
+.wrap{max-width:1040px;margin:0 auto}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+h1,h2,h3,h4{font-family:var(--f-display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+p{margin:0}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+.ar{direction:rtl;text-align:right;font-family:var(--f-ar);font-size:16px;line-height:1.85}
+@keyframes rise{from{opacity:.25;transform:translateY(14px)}to{opacity:1;transform:none}}
+.rise{animation:rise .65s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--d,0)*80ms)}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;display:flex;gap:8px;padding:10px 0;margin-bottom:6px;overflow-x:auto;background:linear-gradient(var(--bg) 75%,transparent)}
+.nav button{white-space:nowrap;border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:8px 16px;font-weight:600;font-size:13px;transition:background .2s,color .2s}
+.nav button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
+/* hero */
+.hero{padding:18px 0 8px}
+.crumbs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.crumbs span{font:600 11px/1 var(--f-mono);letter-spacing:.06em;padding:6px 10px;border-radius:99px;background:var(--surface);border:1px solid var(--line);color:var(--muted)}
+.crumbs .hi{background:color-mix(in srgb,var(--hot) 14%,var(--surface));color:var(--hot);border-color:transparent}
+.crumbs .tm2{color:var(--accent)}
+h1{font-size:clamp(36px,6.4vw,66px);line-height:.98;font-weight:800;margin-bottom:16px}
+h1 span{color:var(--accent)}
+.goal{display:grid;gap:6px;padding:16px 18px;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);max-width:760px}
+.goal p:first-child{color:var(--muted)}
+.sec{margin-top:46px}
+.sec-h{display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.sec-h h2{font-size:clamp(25px,4vw,34px);font-weight:800}
+.sec-h p{color:var(--muted);font-size:14px;max-width:50ch}
+
+/* clock + timeline */
+.clock{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;padding:18px;background:var(--surface);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);margin-bottom:18px}
+.bigring{position:relative;width:132px;height:132px}
+.bigring svg{width:100%;height:100%;transform:rotate(-90deg)}
+.bigring .t{fill:none;stroke:var(--line);stroke-width:10}
+.bigring .f{fill:none;stroke:var(--accent);stroke-width:10;stroke-linecap:round;transition:stroke-dashoffset .9s linear}
+.bigring .c{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.bigring .c b{font:700 24px/1 var(--f-mono)}
+.bigring .c span{font-size:11px;color:var(--muted)}
+.clock h3{font-size:20px;font-weight:800}
+.clock .now{color:var(--muted);font-size:14px;margin:4px 0 12px}
+.ctrls{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--surface2);border-radius:99px;padding:9px 16px;font:600 13px var(--f-mono)}
+.btn.go{background:var(--ink);color:var(--bg);border-color:var(--ink);min-width:96px}
+.tl{list-style:none;margin:0;padding:0;display:grid;gap:0;position:relative}
+.step{display:grid;grid-template-columns:78px 22px 1fr;gap:0 14px;padding-bottom:14px;position:relative}
+.step .tm{font:600 12px/1.2 var(--f-mono);color:var(--muted);text-align:right;padding-top:16px}
+.step .tm b{display:block;color:var(--ink);font-size:13px}
+.step .spine{position:relative;display:flex;justify-content:center}
+.step .spine::before{content:"";position:absolute;top:0;bottom:-14px;width:2px;background:var(--line)}
+.step:last-child .spine::before{bottom:50%}
+.step .node{position:relative;z-index:1;margin-top:16px;width:16px;height:16px;border-radius:50%;background:var(--surface);border:3px solid var(--line);transition:background .3s,border-color .3s}
+.step.cur .node{border-color:var(--accent);background:var(--accent);animation:ping 1.8s ease-out infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--accent) 55%,transparent)}100%{box-shadow:0 0 0 12px transparent}}
+.step.done .node{background:var(--ok);border-color:var(--ok)}
+.scard{padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);display:grid;gap:8px;transition:border-color .3s}
+.step.cur .scard{border-color:var(--accent)}
+.scard .top{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.scard h4{font-size:17px;font-weight:800}
+.scard .len{font:600 11px/1 var(--f-mono);padding:5px 8px;border-radius:99px;background:var(--surface2);color:var(--muted)}
+.scard .en{font-size:14px;color:var(--muted)}
+.scard .ar{padding-top:8px;border-top:1px dashed var(--line)}
+.tick{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);background:none;border:0;padding:0;justify-self:start}
+.tick i{width:20px;height:20px;border-radius:6px;border:2px solid var(--line);display:grid;place-items:center;transition:background .2s,border-color .2s}
+.tick svg{width:12px;height:12px;opacity:0}
+.tick svg path{fill:none;stroke:var(--surface);stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round}
+.step.done .tick i{background:var(--ok);border-color:var(--ok)}
+.step.done .tick svg{opacity:1}
+
+/* summary */
+.mgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.mus{--c:var(--m-eo);padding:18px;background:var(--surface);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);display:grid;gap:10px;align-content:start}
+.mus header{display:flex;align-items:center;gap:10px}
+.mus .sw{width:14px;height:14px;border-radius:50%;background:var(--c)}
+.mus h3{font-size:22px;font-weight:800}
+.mus .layer-l{margin-left:auto;font:600 11px var(--f-mono);color:var(--c)}
+.rowx{display:grid;grid-template-columns:86px 1fr;gap:4px 12px;font-size:14px;padding-top:8px;border-top:1px solid var(--line)}
+.rowx b{font:600 11px/1.6 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.rowx ul{margin:0;padding-left:16px}
+.mus .ar{margin-top:2px;padding:10px 12px;border-radius:14px;background:color-mix(in srgb,var(--c) 10%,var(--surface))}
+.hooks{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.hook{padding:16px;border-radius:18px;background:var(--ink);color:var(--bg);display:grid;gap:8px}
+.hook b{font:800 26px/1.1 var(--f-display)}
+.hook span{font-size:13px;opacity:.85}
+.hook .ar{font-size:14px;line-height:1.7;opacity:.95;padding-top:8px;border-top:1px solid color-mix(in srgb,var(--bg) 25%,transparent)}
+.acts{margin-top:14px;padding:18px;background:var(--surface);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}
+.acts h3{font-size:20px;margin-bottom:10px}
+.act{display:grid;grid-template-columns:1fr 1fr;gap:6px 18px;padding:9px 0;border-top:1px solid var(--line);font-size:14px;align-items:start}
+.act .ar{font-size:15px;line-height:1.7}
+.rtab{margin-top:14px;padding:18px;background:var(--surface);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow)}
+.rtab-h{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:10px}
+.rtab h3{font-size:20px}
+.tw{overflow-x:auto}
+table{border-collapse:collapse;width:100%;min-width:620px;font-size:13.5px}
+th{font:600 11px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:2px solid var(--line)}
+td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+td.m{font-weight:700;white-space:nowrap}
+td.m i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px}
+td.rv{cursor:pointer;transition:filter .3s,background .3s}
+.blind td.rv:not(.shown){filter:blur(7px);background:var(--surface2);user-select:none}
+
+/* drawing */
+.draw{display:grid;grid-template-columns:1.1fr 1fr;gap:16px;align-items:start}
+.canvas{background:var(--surface);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:8px}
+.canvas svg{display:block;width:100%;height:auto}
+.sk{fill:none;stroke:var(--muted);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.sk.dash{stroke-dasharray:5 6;opacity:.7}
+.dot-s{fill:var(--muted)}
+.layer{transition:opacity .6s}
+.layer .dr{stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset 1s ease}
+.layer.on .dr{stroke-dashoffset:0}
+.layer .fl{opacity:0;transition:opacity .7s .3s}
+.layer.on .fl{opacity:1}
+.layer .lab{opacity:0;transition:opacity .5s .6s}
+.layer.on .lab{opacity:1}
+.layer.off{opacity:0}
+.svg-past .layer.past{opacity:.5}
+.svg-past .layer.past .lab{opacity:0}
+.lab text{font:600 14px var(--f-body);fill:var(--ink)}
+.lab .sub{font:500 12px var(--f-body);fill:var(--muted)}
+.lab line{stroke:var(--muted);stroke-width:1.2}
+.lab circle{fill:var(--muted)}
+.hatch{fill:none;stroke-width:2.2;stroke-linecap:round}
+.stepper{display:grid;gap:12px}
+.dots{display:flex;gap:8px;flex-wrap:wrap}
+.dots button{width:38px;height:38px;border-radius:50%;border:2px solid var(--line);background:var(--surface);font:700 13px var(--f-mono);transition:background .2s,color .2s,border-color .2s}
+.dots button.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.dots button.seen{border-color:var(--ok)}
+.sbox{padding:18px;background:var(--surface);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);display:grid;gap:10px;min-height:310px;align-content:start}
+.sbox .k{font:600 11px/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
+.sbox h3{font-size:22px;font-weight:800}
+.sbox .en{font-size:14px;color:var(--muted)}
+.sbox .ar{padding:12px 14px;border-radius:14px;background:var(--surface2)}
+.sbox .note{font-size:12px;color:var(--muted)}
+.snav{display:flex;gap:8px;flex-wrap:wrap}
+
+/* cards */
+.deck-top{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:7px 13px;font-weight:600;font-size:13px}
+.chip.on{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.score{font:600 12px var(--f-mono);color:var(--muted)}
+.score b{color:var(--ok)}.score u{text-decoration:none;color:var(--warn);font-weight:700}
+.pbar{height:6px;border-radius:99px;background:var(--line);overflow:hidden;margin-bottom:14px}
+.pbar i{display:block;height:100%;background:var(--accent);transition:width .4s}
+.flip{perspective:1400px}
+.inner{display:grid;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.3,.8,.3,1)}
+.flip.on .inner{transform:rotateY(180deg)}
+.face{grid-area:1/1;backface-visibility:hidden;-webkit-backface-visibility:hidden;min-height:300px;padding:22px;border-radius:24px;border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow);display:grid;gap:12px;align-content:start;text-align:left;width:100%}
+.face.back{transform:rotateY(180deg);background:var(--surface2)}
+.flip.on .front{pointer-events:none}
+.flip:not(.on) .back{pointer-events:none}
+.face .tagr{display:flex;justify-content:space-between;gap:10px;align-items:center}
+.ty{font:700 11px/1 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;padding:6px 10px;border-radius:99px;background:var(--surface2);color:var(--accent)}
+.face.back .ty{background:var(--surface)}
+.cn{font:600 12px var(--f-mono);color:var(--muted)}
+.face h3{font-size:clamp(20px,3.2vw,26px);font-weight:700;line-height:1.3}
+.face .hintx{font-size:12.5px;color:var(--muted)}
+.opts{display:grid;gap:8px}
+.opts div{padding:10px 14px;border:1px solid var(--line);border-radius:12px;font-size:15px}
+.face .ans{font-size:16px;line-height:1.6}
+.face .ans ul{margin:0;padding-left:20px}
+.face .ar{padding:12px 14px;border-radius:14px;background:var(--surface)}
+.rate{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.rate .btn{flex:1;min-width:130px;padding:13px;font-size:14px;text-align:center}
+.rate .got{background:var(--ok);color:var(--surface);border-color:var(--ok)}
+.rate .rev{background:color-mix(in srgb,var(--warn) 20%,var(--surface));color:var(--warn);border-color:transparent}
+.rate .btn[disabled]{opacity:.4;cursor:not-allowed}
+.dnav{display:flex;gap:8px;justify-content:space-between;margin-top:12px;flex-wrap:wrap}
+.foot{margin-top:46px;font-size:13px;color:var(--muted);max-width:70ch}
+
+@media (max-width:820px){
+  .draw{grid-template-columns:1fr}
+  .mgrid{grid-template-columns:1fr}
+  .hooks{grid-template-columns:1fr}
+  .act{grid-template-columns:1fr}
+  .clock{grid-template-columns:1fr;justify-items:start}
+}
+@media (max-width:520px){
+  .step{grid-template-columns:44px 20px 1fr;gap:0 10px}
+  .step .tm{font-size:11px}
+  .rowx{grid-template-columns:1fr}
+  .face{min-height:340px;padding:18px}
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+
+<style>
+:root{--h1:#D98A06;--h2:#D6335F;--h3:#4A5BD8;--h4:#0A8F9C;--h5:#2E9E5B;--h6:#E26A2C;--h7:#E5483A}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--h1:#F5B83D;--h2:#FF6F91;--h3:#8E9BFF;--h4:#38C7D4;--h5:#5FD58C;--h6:#FF9A5C;--h7:#FF6B5B}}
+:root[data-theme="dark"]{--h1:#F5B83D;--h2:#FF6F91;--h3:#8E9BFF;--h4:#38C7D4;--h5:#5FD58C;--h6:#FF9A5C;--h7:#FF6B5B}
+.sub-h{font:800 22px var(--f-display);margin:30px 0 12px}
+.sub-h small{display:block;font:500 13px var(--f-body);color:var(--muted);margin-top:2px}
+.full{grid-column:1/-1}
+.cmpwrap{overflow-x:auto;margin-top:4px}
+.cmp{min-width:560px}
+.cmp th:first-child{width:96px}
+.cmp td b{font:600 11px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--c)}
+.cmp ul{margin:0;padding-left:16px}
+.cmp td.pa{background:color-mix(in srgb,var(--m-rect) 7%,transparent)}
+.cmp td.sy{background:color-mix(in srgb,var(--m-io) 7%,transparent)}
+.clin{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.cl{padding:16px;border-radius:18px;background:var(--surface);border:1px solid var(--line);display:grid;gap:6px;align-content:start}
+.cl b{font:800 18px var(--f-display)}
+.cl p{font-size:14px}
+.cl .ar{font-size:15px;line-height:1.75;padding-top:8px;border-top:1px dashed var(--line)}
+.hooks4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+.hooks4 .hook b{font-size:21px}
+@media (max-width:980px){.hooks4{grid-template-columns:1fr 1fr}}
+@media (max-width:820px){.clin{grid-template-columns:1fr}.hooks4{grid-template-columns:1fr}}
+.canvas svg[hidden]{display:none}
+.sk.thin{stroke-width:1.6}
+.arrowp{fill:none;stroke-width:2.6;stroke-linecap:round}
+.note-t{font:700 14px var(--f-body)}
+.note-s{font:500 12px var(--f-body);fill:var(--muted)}
+.bigring .c b{display:block;font-size:21px}
+.bigring .c span{display:block;margin-top:4px}
+@media (max-width:640px){.canvas{overflow-x:auto}.canvas svg{min-width:540px}}
+.drawhd{font:700 12px var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin:22px 0 8px}.drawblk{margin-bottom:10px}</style>
+
+<div class="wrap">
+  <nav class="nav" id="nav" aria-label="Sections"><button data-go="s-time" class="on">Route</button><button data-go="s-sum">Notes</button><button data-go="s-cmp">Connect</button><button data-go="s-cards">Question cards</button></nav>
+
+  <header class="hero">
+    <div class="crumbs rise"><span>DHB202</span><span>Bacteriology</span><span class="tm2">1 hour</span><span class="hi">5 of 33 marks</span><span>Tue 27 Oct</span></div>
+    <h1 class="rise" style="--d:1">Big subject,<br><span>one hour, the key points</span></h1>
+    <div class="goal rise" style="--d:2">
+      <p>Six GI bacteriology lectures in 60 minutes: one table of top points, short notes on each organism, then connect, compare and test yourself.</p>
+      <p class="ar" lang="ar">الهدف: ست محاضرات بكتريولوجيا في ساعة واحدة (5 درجات فقط من 33): جدول أهم النقاط ثم ملاحظات قصيرة لكل جرثومة ثم المقارنات والأسئلة.</p>
+    </div>
+  </header>
+
+  <section class="sec" id="s-time">
+    <div class="sec-h"><h2>Your 1-hour route</h2><p>Press Start and the page follows the clock. Tick each step when done.</p></div>
+    <div class="clock">
+      <div class="bigring"><svg viewBox="0 0 132 132" aria-hidden="true"><circle class="t" cx="66" cy="66" r="57"/><circle class="f" id="clRing" cx="66" cy="66" r="57" stroke-dasharray="358.1" stroke-dashoffset="358.1"/></svg><div class="c"><div><b id="clTxt">0:00:00</b><span id="clOf">of 1:30:00</span></div></div></div>
+      <div>
+        <h3 id="clStep">Ready when you are</h3>
+        <p class="now" id="clNow">Open the 6 lecture PDFs next to this page and press Start.</p>
+        <div class="ctrls"><button class="btn go" id="clGo">Start</button><button class="btn" id="clReset">Reset</button></div>
+      </div>
+    </div>
+    <ol class="tl" id="tl"></ol>
+  </section>
+
+  <section class="sec" id="s-sum">
+    <div class="sec-h"><h2>Notes</h2><p>Top points first, then short notes in lecture order, each with an Arabic explanation. Items marked * are my additions or a reading I am not fully sure about.</p></div>
+    <article class="mus full" style="--c:var(--m-io);margin-bottom:6px">
+      <header><span class="sw"></span><h3>Top points: if you only read one thing</h3></header>
+      <div class="cmpwrap"><table class="cmp" style="min-width:600px"><thead><tr><th style="width:150px">Organism</th><th>Must know</th></tr></thead><tbody>
+        <tr><td><b>H. pylori</b></td><td class="pa">Curved Gram-negative, urease positive; CagA and VacA; urea breath test, rapid urease; clarithromycin + amoxicillin (or metronidazole) + PPI for 1 to 2 weeks</td></tr>
+        <tr><td><b>S. aureus</b></td><td class="sy">Pre-formed heat-stable enterotoxin (superantigen); 1 to 6 h; vomiting, no fever; milk products, cakes, nasal carriers</td></tr>
+        <tr><td><b>B. cereus</b></td><td class="pa">Reheated fried rice; emetic toxin (1 to 6 h) or diarrhoeal toxin (cAMP, about 18 h); no fever</td></tr>
+        <tr><td><b>C. perfringens</b></td><td class="sy">Reheated meat; 8 to 24 h; diarrhoea and cramps, NO vomiting</td></tr>
+        <tr><td><b>C. botulinum</b></td><td class="pa">Canned food; toxin blocks ACh; descending flaccid paralysis; antitoxin, ventilation, no antibiotics; no honey under 1 year</td></tr>
+        <tr><td><b>Salmonella</b></td><td class="sy">Poultry, eggs; ileocaecal invasion; fever; non-lactose fermenter (MacConkey, DCA); self-limited, fluids only</td></tr>
+        <tr><td><b>Listeria</b></td><td class="pa">Grows at 4 C; tumbling motility; pregnancy, neonates; ampicillin + gentamicin; cephalosporins fail</td></tr>
+        <tr><td><b>C. difficile</b></td><td class="sy">After antibiotics; toxins A and B; stool toxin test (not culture); stop antibiotic, metronidazole or vancomycin</td></tr>
+        <tr><td><b>E. coli</b></td><td class="pa">ETEC: LT (cAMP) and ST (cGMP). EHEC: verocytotoxin, bloody, HUS, no antibiotics. EIEC: like Shigella</td></tr>
+        <tr><td><b>Cholera</b></td><td class="sy">Rice-water stool, painless; cAMP; TCBS; fluids + doxycycline or ciprofloxacin; 40% mortality untreated</td></tr>
+        <tr><td><b>Shigella</b></td><td class="pa">Human only; invades the colon; blood and mucus; Shiga toxin and HUS; ciprofloxacin in severe cases</td></tr>
+        <tr><td><b>Yersinia</b></td><td class="sy">Bipolar staining; motile at 25 C not 37 C; urease positive; right iliac fossa pain mimics appendicitis</td></tr></tbody></table></div>
+      <p class="ar" lang="ar">هذا الجدول هو الأهم لأن المادة 5 درجات فقط من 33. احفظ لكل جرثومة: السم أو الآلية، فترة الحضانة، الطعام، هل يوجد قيء أو حمى، الوسط المستخدم، والدواء.</p>
+    </article>
+
+    <h3 class="sub-h">1. Mouth and oesophagus<small>Quick: one organism for each.</small></h3>
+    <div class="mgrid">
+      <article class="mus full" style="--c:var(--m-eo)">
+        <header><span class="sw"></span><h3>Infections of the mouth and oesophagus</h3></header>
+        <div class="rowx"><b>Flora</b><span>Mouth: viridans streptococci. Stomach: only H. pylori. Colon: over 90% anaerobes (Bacteroides, Clostridium), plus E. coli and Enterococcus faecalis</span></div>
+        <div class="rowx"><b>Vincent's angina</b><span>Borrelia vincentii + fusobacteria; bleeding gums, pseudomembrane; penicillin (erythromycin if allergic)</span></div>
+        <div class="rowx"><b>Dental caries</b><span>Viridans streptococci (dextran biofilm); endocarditis risk after extraction</span></div>
+        <div class="rowx"><b>Thrush, oesophagitis</b><span>Candida albicans (nystatin or fluconazole); in the immunocompromised also HSV oesophagitis (acyclovir)</span></div>
+        <p class="ar" lang="ar">الفم: المكورات المخضرة. المعدة: الملوية فقط. القولون: أكثر من 90% لاهوائيات. فنسنت: بوريليا مع فوزوباكتيريا والعلاج بنسلين. التسوس: مخضرة (دكستران) وخطر التهاب شغاف بعد الخلع. القلاع والتهاب المريء: مبيضات (نيستاتين أو فلوكونازول) وأحيانًا هربس (أسيكلوفير).</p>
+      </article>
+    </div>
+
+    <h3 class="sub-h">2. Helicobacter pylori<small>The most testable organism in the stomach.</small></h3>
+    <div class="mgrid">
+      <article class="mus full" style="--c:var(--m-io)">
+        <header><span class="sw"></span><h3>H. pylori</h3></header>
+        <div class="rowx"><b>Identity</b><span>Curved Gram-negative rod, microaerophilic, motile, urease positive; stomach is the reservoir (70 to 90% of adults in developing countries); faecal-oral</span></div>
+        <div class="rowx"><b>Virulence</b><span>Urease (ammonia neutralises acid); protease and motility (through mucus); CagA (cancer); VacA (ulcer). It lives in mucus and does not invade</span></div>
+        <div class="rowx"><b>Diseases</b><span>Gastritis, gastric or duodenal ulcer, MALT lymphoma, gastric adenocarcinoma</span></div>
+        <div class="rowx"><b>Tests</b><span>Biopsy: rapid urease (phenol red pink in 2 h), Skirrow culture (oxidase +, catalase +). Non-invasive: urea breath test, stool antigen, IgG</span></div>
+        <div class="rowx"><b>Treatment</b><span>Clarithromycin + amoxicillin (or metronidazole) + PPI, 1 to 2 weeks</span></div>
+        <p class="ar" lang="ar">ملتوية سالبة الغرام هوائية دقيقة موجبة اليورياز، تعيش في المخاط ولا تغزو. اليورياز (أمونيا تعادل الحمض)، البروتييز والحركة، CagA (سرطان)، وVacA (قرحة). الأمراض: التهاب معدة وقرحة وورم لمفي MALT وسرطان. التحليل: يورياز سريع وزرع سكيرو، واختبار التنفس ومستضد البراز. العلاج: كلاريثروميسين + أموكسيسيلين (أو ميترونيدازول) + مثبط المضخة.</p>
+      </article>
+    </div>
+    <div class="drawhd">Draw it: step by step</div><div class="draw drawblk" data-svgs="svgA"><div class="canvas"><svg id="svgA" viewBox="0 0 640 420" role="img" aria-label="H. pylori in the stomach"></svg></div><div class="stepper"><div class="dots"></div><div class="sbox"></div><div class="snav"><button class="btn sPrev">Back</button><button class="btn go sNext">Next step</button><button class="btn sPlay">Play all</button></div></div></div>
+
+    <h3 class="sub-h">3. Food poisoning<small>Ask each time: wait, food, vomiting, fever.</small></h3>
+    <div class="mgrid">
+      <article class="mus" style="--c:var(--m-ta)">
+        <header><span class="sw"></span><h3>S. aureus</h3></header>
+        <div class="rowx"><b>Key</b><span>Gram-positive cocci in clusters; 1 to 6 h; pre-formed heat-stable superantigen enterotoxin; milk products, cakes, ice cream; hands of nasal carriers</span></div>
+        <div class="rowx"><b>Picture</b><span>Sudden vomiting and cramps, no fever, under 1 day; fluids only</span></div>
+        <p class="ar" lang="ar">حضانة 1 إلى 6 ساعات وسم جاهز مقاوم للحرارة (مستضد فائق) في الحليب والكعك من حامل في الأنف. قيء مفاجئ بلا حمى والعلاج سوائل.</p>
+      </article>
+      <article class="mus" style="--c:var(--m-eo)">
+        <header><span class="sw"></span><h3>B. cereus</h3></header>
+        <div class="rowx"><b>Key</b><span>Spore-forming Gram-positive bacillus; reheated fried rice</span></div>
+        <div class="rowx"><b>Two toxins</b><span>Emetic: 1 to 6 h (like S. aureus). Diarrhoeal: about 18 h (cAMP, like cholera). No fever; fluids only</span></div>
+        <p class="ar" lang="ar">عصية مكوّنة للأبواغ في الأرز المقلي المعاد تسخينه. سم التقيؤ (1-6 ساعات) وسم الإسهال (نحو 18 ساعة، cAMP). بلا حمى.</p>
+      </article>
+      <article class="mus" style="--c:var(--h7)">
+        <header><span class="sw"></span><h3>C. perfringens</h3></header>
+        <div class="rowx"><b>Key</b><span>Anaerobic spore-forming capsulated bacillus; reheated meat; 8 to 24 h; enterotoxin acts in the ileum</span></div>
+        <div class="rowx"><b>Picture</b><span>Diarrhoea and cramps, NO vomiting; no toxin assay; fluids only</span></div>
+        <div class="rowx"><b>Aflatoxin*</b><span>Aspergillus flavus on grains: acute liver injury; chronic hepatocellular carcinoma</span></div>
+        <p class="ar" lang="ar">لاهوائية في اللحم المعاد تسخينه، حضانة 8-24 ساعة، إسهال وتقلصات بدون قيء. الأفلاتوكسين من الرشاشية الصفراء: تلف كبد وسرطان خلايا كبدية.</p>
+      </article>
+      <article class="mus" style="--c:var(--m-rect)">
+        <header><span class="sw"></span><h3>Salmonella (enterocolitis)</h3></header>
+        <div class="rowx"><b>Key</b><span>Motile Gram-negative, non-lactose fermenter; poultry, eggs; 6 to 48 h; invades the ileocaecal mucosa</span></div>
+        <div class="rowx"><b>Picture</b><span>Diarrhoea, cramps, fever, vomiting, sometimes blood; MacConkey or DCA; fluids only</span></div>
+        <p class="ar" lang="ar">متحركة غير مخمّرة للاكتوز، دواجن وبيض، حضانة 6-48 ساعة وتغزو اللفائفي الأعوري: إسهال وحمى وقيء. ماكونكي وDCA والعلاج سوائل.</p>
+      </article>
+      <article class="mus full" style="--c:var(--m-io)">
+        <header><span class="sw"></span><h3>Listeria monocytogenes</h3></header>
+        <div class="rowx"><b>Identity</b><span>Short Gram-positive rods, catalase +, narrow beta-haemolysis, grows at 4 C, tumbling motility, CAMP positive; facultative intracellular</span></div>
+        <div class="rowx"><b>Virulence</b><span>Internalins (entry), listeriolysin O (escape phagosome), ActA (actin tail, cell-to-cell spread)</span></div>
+        <div class="rowx"><b>Disease</b><span>Unpasteurised milk, soft cheese, deli meats. Pregnant women, neonates, elderly, immunocompromised: septicaemia, meningitis, abortion or stillbirth</span></div>
+        <div class="rowx"><b>Treatment</b><span>Ampicillin + gentamicin; TMP-SMX if allergic. Cephalosporins are NOT effective</span></div>
+        <p class="ar" lang="ar">قصيرة موجبة الغرام تنمو على 4 درجات، حركة متدحرجة، انحلال ضيق، CAMP موجب. إنترنالين للدخول، LLO للهروب، ActA للانتشار. تصيب الحوامل والمواليد وكبار السن: تسمم دم وسحايا وإجهاض. العلاج أمبيسيلين + جنتاميسين ولا تنفع السيفالوسبورينات.</p>
+      </article>
+      <article class="mus full" style="--c:var(--h6)">
+        <header><span class="sw"></span><h3>Clostridium botulinum (botulism)</h3></header>
+        <div class="rowx"><b>Key</b><span>Anaerobic spore-forming bacillus; improperly canned food; pre-formed neurotoxin (A, B, E) blocks acetylcholine release; no inflammation, no fever</span></div>
+        <div class="rowx"><b>Clinical</b><span>12 to 36 h; diplopia, ptosis, dysphagia; descending symmetrical flaccid paralysis; conscious, no sensory loss; death from respiratory failure</span></div>
+        <div class="rowx"><b>Diagnosis</b><span>Clinical first; toxin by mouse bioassay (gold standard), ELISA, PCR</span></div>
+        <div class="rowx"><b>Treatment, prevention</b><span>Heptavalent antitoxin + ventilation; NO antibiotics in food-borne botulism. Toxin destroyed at 85 C for 5 min; spores need 121 C. No honey under 1 year</span></div>
+        <p class="ar" lang="ar">سم عصبي جاهز في المعلبات يمنع تحرر الأسيتيل كولين. حضانة 12-36 ساعة: ازدواج رؤية وتدلي جفن وعسر بلع ثم شلل رخو نازل والمريض واعٍ بلا فقد حس، والوفاة من فشل التنفس. العلاج: مضاد سم ودعم تنفسي ولا مضادات حيوية. السم يتلف بـ85 درجة لـ5 دقائق، والأبواغ تحتاج 121، ولا عسل للرضع.</p>
+      </article>
+    </div>
+    <div class="drawhd">Draw it: step by step</div><div class="draw drawblk" data-svgs="svgB,svgC"><div class="canvas"><svg id="svgB" viewBox="0 0 640 420" role="img" aria-label="Listeria in a pregnant woman"></svg><svg id="svgC" viewBox="0 0 640 420" role="img" aria-label="Botulism" hidden></svg></div><div class="stepper"><div class="dots"></div><div class="sbox"></div><div class="snav"><button class="btn sPrev">Back</button><button class="btn go sNext">Next step</button><button class="btn sPlay">Play all</button></div></div></div>
+
+    <h3 class="sub-h">4. C. difficile, intestinal TB, Yersinia<small>Diarrhoea after antibiotics, and right iliac fossa pain.</small></h3>
+    <div class="mgrid">
+      <article class="mus full" style="--c:var(--m-io)">
+        <header><span class="sw"></span><h3>Clostridium difficile</h3></header>
+        <div class="rowx"><b>Key</b><span>Gram-positive anaerobic spore-former; in the gut of 3% of people and up to 30% of hospitalised patients</span></div>
+        <div class="rowx"><b>Cause</b><span>Clindamycin, 3rd generation cephalosporins, ampicillin, amoxicillin suppress the flora. Toxin A (enterotoxin: watery diarrhoea); toxin B (cytotoxin: cell death)</span></div>
+        <div class="rowx"><b>Picture</b><span>Antibiotic-associated diarrhoea; pseudomembranous colitis with yellow plaques; fever, pain</span></div>
+        <div class="rowx"><b>Lab, treatment</b><span>Stool toxin (ELISA, PCR); culture is NOT diagnostic. Stop the antibiotic; metronidazole or vancomycin; faecal transplant if chronic</span></div>
+        <p class="ar" lang="ar">بعد مضاد حيوي (كليندامايسين أو سيفالوسبورين جيل ثالث أو أمبيسيلين) تتكاثر وتفرز السم A (معوي) والسم B (خلوي): التهاب قولون غشائي كاذب بلويحات صفراء. التشخيص بسموم البراز وليس الزرع. العلاج: إيقاف المضاد وميترونيدازول أو فانكومايسين وزرع براز في المزمن.</p>
+      </article>
+      <article class="mus" style="--c:var(--h7)">
+        <header><span class="sw"></span><h3>Intestinal tuberculosis</h3></header>
+        <div class="rowx"><b>Key</b><span>M. tuberculosis (swallowed sputum) or M. bovis (milk); acid-fast; ileocaecal region; pain, diarrhoea, weight loss; anti-TB drugs</span></div>
+        <p class="ar" lang="ar">السلية أو البقرية، تصيب اللفائفي الأعوري: ألم وإسهال ونقص وزن، والعلاج أدوية السل.</p>
+      </article>
+      <article class="mus" style="--c:var(--m-ta)">
+        <header><span class="sw"></span><h3>Yersinia and mesenteric adenitis</h3></header>
+        <div class="rowx"><b>Key</b><span>Y. enterocolitica: Gram-negative coccobacillus, bipolar staining, motile at 25 C not 37 C, urease +; animal faeces; children under 15</span></div>
+        <div class="rowx"><b>Picture</b><span>Fever, diarrhoea, right iliac fossa pain mimicking appendicitis (mesenteric adenitis, also Y. pseudotuberculosis); supportive; severe: ciprofloxacin or TMP-SMX</span></div>
+        <p class="ar" lang="ar">كوكوباسيل بصبغة قطبية، متحركة على 25 لا 37، موجبة اليورياز، من براز الحيوانات وللأطفال. حمى وإسهال وألم حفرة حرقفية يمنى يقلد الزائدة. العلاج داعم، وفي الشديد سيبروفلوكساسين أو TMP-SMX.</p>
+      </article>
+    </div>
+    <div class="drawhd">Draw it: step by step</div><div class="draw drawblk" data-svgs="svgD"><div class="canvas"><svg id="svgD" viewBox="0 0 640 420" role="img" aria-label="C. difficile after antibiotics"></svg></div><div class="stepper"><div class="dots"></div><div class="sbox"></div><div class="snav"><button class="btn sPrev">Back</button><button class="btn go sNext">Next step</button><button class="btn sPlay">Play all</button></div></div></div>
+
+    <h3 class="sub-h">5. Escherichia coli<small>Six types: match each to its mechanism.</small></h3>
+    <div class="mgrid">
+      <article class="mus full" style="--c:var(--h6)">
+        <header><span class="sw"></span><h3>The six diarrhoeagenic types</h3></header>
+        <div class="rowx"><b>Family</b><span>Enterobacteriaceae: Gram-negative bacilli, facultative anaerobes, ferment glucose, oxidase negative. E. coli ferments lactose; normal flora, so type it by serotype and toxin</span></div>
+        <div class="cmpwrap"><table class="cmp" style="min-width:640px"><thead><tr><th>Type</th><th>Mechanism</th><th>Picture</th></tr></thead><tbody>
+          <tr><td><b>ETEC</b></td><td class="pa">LT (cAMP up) and ST (cGMP up)</td><td class="pa">Travellers' and infantile; watery</td></tr>
+          <tr><td><b>EHEC</b></td><td class="sy">Verocytotoxin (Shiga-like)</td><td class="sy">Bloody; HUS; beef; no antibiotics</td></tr>
+          <tr><td><b>EPEC</b></td><td class="pa">Destroys microvilli</td><td class="pa">Infantile; watery</td></tr>
+          <tr><td><b>EIEC</b></td><td class="sy">Invades the colon like Shigella</td><td class="sy">Dysentery: blood, mucus</td></tr>
+          <tr><td><b>EAEC</b></td><td class="pa">Aggregative adherence</td><td class="pa">Acute and chronic in children</td></tr>
+          <tr><td><b>DAEC</b></td><td class="sy">Diffuse adherence</td><td class="sy">Watery in children</td></tr></tbody></table></div>
+        <div class="rowx"><b>Treatment, prevention</b><span>Rehydration; antibiotics usually not given (EHEC: more toxin, HUS risk). Sanitation, cook beef; oral ETEC vaccine for travellers; norfloxacin prophylaxis</span></div>
+        <p class="ar" lang="ar">المعويات: سالبة الغرام لاهوائية اختيارية سالبة الأوكسيداز؛ والإشريكية تخمّر اللاكتوز وهي من الفلورا لذلك يلزم تنميط. ETEC: سمّا LT وST (إسهال مسافرين). EHEC: فيروتوكسين (دم وHUS، لا مضادات). EPEC: تخريب الزغيبات (رضع). EIEC: غزو كالشيجيلا. EAEC: التصاق تجمعي. DAEC: التصاق منتشر. العلاج سوائل، ولقاح ETEC ونورفلوكساسين للمسافرين.</p>
+      </article>
+    </div>
+    <div class="drawhd">Draw it: step by step</div><div class="draw drawblk" data-svgs="svgE"><div class="canvas"><svg id="svgE" viewBox="0 0 640 420" role="img" aria-label="ETEC and EHEC"></svg></div><div class="stepper"><div class="dots"></div><div class="sbox"></div><div class="snav"><button class="btn sPrev">Back</button><button class="btn go sNext">Next step</button><button class="btn sPlay">Play all</button></div></div></div>
+
+    <h3 class="sub-h">6. Cholera and Shigella<small>Lecture 7.</small></h3>
+    <div class="mgrid">
+      <article class="mus" style="--c:var(--m-eo)">
+        <header><span class="sw"></span><h3>Vibrio cholerae</h3></header>
+        <div class="rowx"><b>Key</b><span>Curved comma-shaped motile Gram-negative rod; faecal-oral (water)</span></div>
+        <div class="rowx"><b>Toxin</b><span>A-B enterotoxin (like LT): adenylate cyclase permanently on, cAMP up: rice-water stool, painless, no blood. Mucinase helps. Mortality 40% untreated</span></div>
+        <div class="rowx"><b>Lab</b><span>TCBS (selective); carriers: alkaline peptone water first; direct latex agglutination in epidemics</span></div>
+        <div class="rowx"><b>Treatment</b><span>Fluids + doxycycline or ciprofloxacin. Oral vaccines: killed about 50%, live about 80%</span></div>
+        <p class="ar" lang="ar">ضمة منحنية متحركة تنتقل بالماء. السم المعوي ينشط الأدينيلات سيكلاز دائمًا فيرتفع cAMP: براز كماء الأرز بلا ألم ولا دم والوفيات 40% دون علاج. التشخيص على TCBS (وماء ببتوني قلوي للحاملين). العلاج سوائل ودوكسيسيكلين أو سيبروفلوكساسين.</p>
+      </article>
+      <article class="mus" style="--c:var(--m-ta)">
+        <header><span class="sw"></span><h3>Shigella (bacillary dysentery)</h3></header>
+        <div class="rowx"><b>Key</b><span>Non-motile, non-lactose fermenting Gram-negative rod; human only; person to person</span></div>
+        <div class="rowx"><b>Virulence</b><span>Invades the colon; Shiga toxin (S. dysenteriae 1) blocks protein synthesis and causes HUS</span></div>
+        <div class="rowx"><b>Picture</b><span>1 to 4 days; fever, cramps, then watery then bloody mucoid stool; DCA or S and S agar</span></div>
+        <div class="rowx"><b>Treatment</b><span>Fluids; severe: ciprofloxacin (drug of choice), TMP-SMX alternative</span></div>
+        <p class="ar" lang="ar">عصية غير متحركة لا تخمّر اللاكتوز، بشرية فقط. تغزو القولون وسم شيجا (النوع 1) يثبط البروتين ويسبب HUS. حمى وتقلصات ثم إسهال مائي ثم دموي مخاطي. العلاج سوائل والسيبروفلوكساسين في الشديد.</p>
+      </article>
+      <article class="mus full" style="--c:var(--h7)">
+        <header><span class="sw"></span><h3>Campylobacter versus Helicobacter versus Vibrio</h3></header>
+        <div class="cmpwrap"><table class="cmp" style="min-width:560px"><thead><tr><th></th><th>Campylobacter</th><th>Helicobacter</th><th>Vibrio</th></tr></thead><tbody>
+          <tr><td><b>Oxygen</b></td><td class="pa">Microaerophilic</td><td class="sy">Microaerophilic</td><td class="pa">Facultative anaerobe</td></tr>
+          <tr><td><b>Temperature</b></td><td class="pa">42 C</td><td class="sy">37 C</td><td class="pa">37 C</td></tr>
+          <tr><td><b>Urease</b></td><td class="pa">Negative</td><td class="sy">Positive</td><td class="pa">Negative</td></tr>
+          <tr><td><b>Medium</b></td><td class="pa">Skirrow</td><td class="sy">Skirrow</td><td class="pa">TCBS (alkaline)</td></tr>
+          <tr><td><b>Disease</b></td><td class="pa">Gastroenteritis</td><td class="sy">Ulcer, carcinoma</td><td class="pa">Cholera</td></tr></tbody></table></div>
+        <p class="ar" lang="ar">كامبيلوباكتر وهيليكوباكتر هوائيان دقيقان على سكيرو (42 درجة وسالب اليورياز مقابل 37 درجة وموجب اليورياز). الضمة لاهوائية اختيارية على TCBS وتسبب الكوليرا.</p>
+      </article>
+    </div>
+
+    <div class="drawhd">Draw it: step by step</div><div class="draw drawblk" data-svgs="svgF"><div class="canvas"><svg id="svgF" viewBox="0 0 640 420" role="img" aria-label="Cholera"></svg></div><div class="stepper"><div class="dots"></div><div class="sbox"></div><div class="snav"><button class="btn sPrev">Back</button><button class="btn go sNext">Next step</button><button class="btn sPlay">Play all</button></div></div></div>
+    <div class="hooks hooks4">
+      <div class="hook"><b>Short wait = pre-formed toxin*</b><span>S. aureus and B. cereus (emetic) 1 to 6 h; botulism 12 to 36 h. No fever.</span><p class="ar" lang="ar">حضانة قصيرة = سم جاهز بلا حمى.</p></div>
+      <div class="hook"><b>Reheated: rice or meat*</b><span>Fried rice: B. cereus (vomiting). Meat: C. perfringens (no vomiting).</span><p class="ar" lang="ar">أرز: العصوية. لحم: الحاطمة.</p></div>
+      <div class="hook"><b>cAMP: three bugs</b><span>Cholera, ETEC (LT), B. cereus diarrhoeal toxin.</span><p class="ar" lang="ar">كوليرا وETEC وسم العصوية.</p></div>
+      <div class="hook"><b>Shiga toxin: two bugs*</b><span>Shigella dysenteriae 1 and EHEC: protein synthesis blocked, bloody, HUS.</span><p class="ar" lang="ar">شيجا وEHEC: دم وHUS.</p></div>
+    </div>
+
+    <details class="key"><summary>Notes on the lectures: check with your lecturer</summary>
+      <p class="note-s">* Lecture 6 was not among the files, so typhoid and Campylobacter jejuni have no section; Campylobacter appears only in the comparison table. The lecture heads Salmonella and Listeria under "bacterial intoxications"; I kept its grouping. This is the short 1-hour version: it leaves out detail such as the long Enterobacteriaceae list. The mnemonics are mine.</p>
+    </details>
+
+    <div class="rtab blind" style="margin-top:20px">
+      <div class="rtab-h"><h3>Recall sheet: tap a blurred cell to reveal</h3><button class="btn rtBtn">Show all answers</button></div>
+      <div class="tw"><table style="min-width:520px"><thead><tr><th>Ask yourself</th><th>Answer</th></tr></thead><tbody>
+        <tr><td class="m">H. pylori: virulence and treatment</td><td class="rv">Urease, CagA, VacA; clarithromycin + amoxicillin or metronidazole + PPI</td></tr>
+        <tr><td class="m">S. aureus vs B. cereus (emetic) vs C. perfringens</td><td class="rv">1 to 6 h milk, 1 to 6 h rice, 8 to 24 h meat with no vomiting</td></tr>
+        <tr><td class="m">Botulism: mechanism and treatment</td><td class="rv">Blocks ACh; antitoxin + ventilation, no antibiotics</td></tr>
+        <tr><td class="m">Listeria: growth and drugs</td><td class="rv">Grows at 4 C; ampicillin + gentamicin; cephalosporins fail</td></tr>
+        <tr><td class="m">Salmonella: medium and site</td><td class="rv">MacConkey, DCA; ileocaecal</td></tr>
+        <tr><td class="m">C. difficile: toxins and test</td><td class="rv">A (entero), B (cyto); stool toxin, not culture</td></tr>
+        <tr><td class="m">Yersinia: 3 lab features</td><td class="rv">Bipolar staining; motile at 25 C only; urease +</td></tr>
+        <tr><td class="m">ETEC and EHEC toxins</td><td class="rv">LT (cAMP) and ST (cGMP); verocytotoxin with HUS, no antibiotics</td></tr>
+        <tr><td class="m">Cholera: stool, toxin, medium, mortality</td><td class="rv">Rice-water; cAMP; TCBS; 40% untreated</td></tr>
+        <tr><td class="m">Shigella: toxin, complication, drug</td><td class="rv">Shiga toxin; HUS; ciprofloxacin</td></tr>
+      </tbody></table></div>
+    </div>
+
+  </section>
+
+  <section class="sec" id="s-cmp">
+    <div class="sec-h"><h2>Connect the bugs</h2><p>The exam rewards pairs and patterns: same toxin, same wait, same plate. Items marked * are memory tricks or my own summary.</p></div>
+    <div class="mgrid">
+      <article class="mus full" style="--c:var(--m-ta)">
+        <header><span class="sw"></span><h3>1. One toxin, one effect: the mechanism map</h3></header>
+        <div class="cmpwrap"><table class="cmp" style="min-width:620px"><thead><tr><th style="width:150px">What the toxin does</th><th>Toxin and organism</th><th>You see</th></tr></thead><tbody>
+          <tr><td><b>cAMP rises</b></td><td class="pa">Cholera enterotoxin; ETEC heat-labile (LT); B. cereus diarrhoeal toxin</td><td class="pa">Watery diarrhoea, no blood</td></tr>
+          <tr><td><b>cGMP rises</b></td><td class="sy">ETEC heat-stable (ST)</td><td class="sy">Watery diarrhoea (travellers')</td></tr>
+          <tr><td><b>Protein synthesis blocked</b></td><td class="pa">Shiga toxin (S. dysenteriae 1); verocytotoxin (EHEC)*</td><td class="pa">Bloody diarrhoea, then HUS</td></tr>
+          <tr><td><b>Superantigen</b></td><td class="sy">S. aureus enterotoxin; B. cereus emetic toxin is similar in timing</td><td class="sy">Vomiting 1 to 6 h, no fever</td></tr>
+          <tr><td><b>Blocks acetylcholine</b></td><td class="pa">C. botulinum neurotoxin</td><td class="pa">Descending flaccid paralysis</td></tr>
+          <tr><td><b>Gut wall damage</b></td><td class="sy">C. difficile toxin A (enterotoxin) and B (cytotoxin); C. perfringens enterotoxin (ion transport)</td><td class="sy">Pseudomembranous colitis / cramps and diarrhoea</td></tr>
+          <tr><td><b>Mucosal destruction</b></td><td class="pa">H. pylori CagA and VacA; urease makes ammonia</td><td class="pa">Gastritis, ulcer, cancer</td></tr>
+          <tr><td><b>Escapes the phagosome</b></td><td class="sy">Listeria: listeriolysin O, ActA (actin tail)</td><td class="sy">Spreads cell to cell; meningitis</td></tr>
+          <tr><td><b>Liver poison</b></td><td class="pa">Aflatoxin (Aspergillus flavus)</td><td class="pa">Liver injury, HCC</td></tr></tbody></table></div>
+        <p class="ar" lang="ar">لا تحفظ كل جرثومة وحدها؛ احفظ السم وأثره. رفع cAMP (الكوليرا وLT وسم العصوية) = إسهال مائي. شيجا وفيروتوكسين = دم ومتلازمة انحلال الدم اليوريمية. سم المكورات العنقودية = قيء. سم البوتولينوم = شلل رخو. سمّا المطثية العسيرة = التهاب قولون غشائي كاذب.</p>
+      </article>
+
+      <article class="mus full" style="--c:var(--h7)">
+        <header><span class="sw"></span><h3>2. Food poisoning in order of waiting time</h3></header>
+        <div class="cmpwrap"><table class="cmp" style="min-width:680px"><thead><tr><th>Wait</th><th>Organism</th><th>Food</th><th>Vomiting</th><th>Fever</th></tr></thead><tbody>
+          <tr><td><b>1 to 6 h</b></td><td class="pa">S. aureus</td><td class="pa">Milk products, cakes, ice cream</td><td class="pa">Yes</td><td class="pa">No</td></tr>
+          <tr><td><b>1 to 6 h</b></td><td class="sy">B. cereus (emetic)</td><td class="sy">Reheated fried rice</td><td class="sy">Yes</td><td class="sy">No</td></tr>
+          <tr><td><b>6 to 48 h</b></td><td class="pa">Salmonella</td><td class="pa">Poultry, eggs</td><td class="pa">Yes (mild)</td><td class="pa">Yes</td></tr>
+          <tr><td><b>8 to 24 h</b></td><td class="sy">C. perfringens</td><td class="sy">Reheated meat</td><td class="sy">NO</td><td class="sy">No</td></tr>
+          <tr><td><b>about 18 h</b></td><td class="pa">B. cereus (diarrhoeal)</td><td class="pa">Rice, meat, vegetables*</td><td class="pa">Less</td><td class="pa">No</td></tr>
+          <tr><td><b>12 to 36 h</b></td><td class="sy">C. botulinum</td><td class="sy">Home canned food, honey (infants)</td><td class="sy">No: paralysis</td><td class="sy">No</td></tr>
+          <tr><td><b>1 to 4 days</b></td><td class="pa">Shigella</td><td class="pa">Person to person</td><td class="pa">Not typical*</td><td class="pa">Yes</td></tr></tbody></table></div>
+        <p class="note-s">Rule from your slides: toxins that are already in the food (S. aureus, B. cereus emetic) act within hours and cause no fever. Organisms that must grow and invade (Salmonella, Shigella) take longer and cause fever.</p>
+        <p class="ar" lang="ar">القاعدة: السم الجاهز في الطعام يعمل خلال ساعات بلا حمى (العنقودية وسم تقيؤ العصوية). الجراثيم التي تتكاثر وتغزو (السالمونيلا والشيجيلا) تحتاج وقتًا أطول وتسبب حمى. الحاطمة: بدون قيء. البوتولينوم: شلل وليس إسهالًا.</p>
+      </article>
+
+      <article class="mus full" style="--c:var(--m-io)">
+        <header><span class="sw"></span><h3>3. Which plate, which drug</h3></header>
+        <div class="cmpwrap"><table class="cmp" style="min-width:620px"><thead><tr><th style="width:170px">Organism</th><th>Plate or test</th><th>Treatment</th></tr></thead><tbody>
+          <tr><td><b>Salmonella</b></td><td class="pa">MacConkey, DCA (non-lactose fermenter)</td><td class="pa">Fluids only</td></tr>
+          <tr><td><b>Shigella</b></td><td class="sy">MacConkey, DCA (non-lactose fermenter)</td><td class="sy">Ciprofloxacin if severe; TMP-SMX alternative</td></tr>
+          <tr><td><b>E. coli</b></td><td class="pa">MacConkey (lactose fermenter); serotype and toxin</td><td class="pa">Fluids; EHEC: NO antibiotics</td></tr>
+          <tr><td><b>Vibrio cholerae</b></td><td class="sy">TCBS; alkaline peptone water for carriers</td><td class="sy">Fluids + doxycycline or ciprofloxacin</td></tr>
+          <tr><td><b>H. pylori</b></td><td class="pa">Rapid urease, urea breath, Skirrow</td><td class="pa">Clarithromycin + amoxicillin (or metronidazole) + PPI</td></tr>
+          <tr><td><b>Listeria</b></td><td class="sy">Cold enrichment 4 C; narrow beta-haemolysis, CAMP +</td><td class="sy">Ampicillin + gentamicin; not cephalosporins</td></tr>
+          <tr><td><b>C. difficile</b></td><td class="pa">Stool toxin; culture not diagnostic</td><td class="pa">Stop antibiotic; metronidazole or vancomycin</td></tr>
+          <tr><td><b>C. botulinum</b></td><td class="sy">Mouse bioassay, ELISA, PCR</td><td class="sy">Antitoxin + ventilation; NO antibiotics</td></tr>
+          <tr><td><b>Yersinia</b></td><td class="pa">Blood agar, MacConkey; motile at 25 C</td><td class="pa">Supportive; severe: ciprofloxacin</td></tr>
+          <tr><td><b>S. aureus, B. cereus, C. perfringens</b></td><td class="sy">Culture of food or vomitus</td><td class="sy">Self-limited: fluids only</td></tr></tbody></table></div>
+        <p class="ar" lang="ar">السالمونيلا والشيجيلا على ماكونكي وDCA. الكوليرا على TCBS. الملوية: يورياز سريع وسكيرو. الليستيريا: تخصيب بارد. العسيرة: سموم البراز. البوتولينوم: حقن الفأر. أغلب التسممات الغذائية سوائل فقط؛ ولا مضادات حيوية في البوتولينوم وEHEC.</p>
+      </article>
+
+      <article class="mus full" style="--c:var(--m-rect)">
+        <header><span class="sw"></span><h3>4. Look-alike pairs: how to tell them apart</h3></header>
+        <div class="cmpwrap"><table class="cmp" style="min-width:640px"><thead><tr><th style="width:170px">Pair</th><th>First</th><th>Second</th></tr></thead><tbody>
+          <tr><td><b>Salmonella vs Shigella</b><br>both non-lactose fermenters</td><td class="pa">Salmonella: motile; poultry, eggs; ileocaecal; fever; self-limited</td><td class="pa">Shigella: non-motile; human only; colon; blood and mucus; Shiga toxin; ciprofloxacin</td></tr>
+          <tr><td><b>Cholera vs ETEC</b><br>both raise cAMP</td><td class="sy">Cholera: rice-water, no pain, 40% mortality untreated, TCBS</td><td class="sy">ETEC: travellers' and infant diarrhoea; LT (cAMP) + ST (cGMP); milder</td></tr>
+          <tr><td><b>S. aureus vs B. cereus (emetic)</b><br>both 1 to 6 h</td><td class="pa">S. aureus: milk products, cakes; nasal carrier; heat-stable superantigen</td><td class="pa">B. cereus: reheated fried rice; spore-forming bacillus</td></tr>
+          <tr><td><b>C. perfringens vs B. cereus</b><br>both reheated food</td><td class="sy">C. perfringens: meat; 8 to 24 h; NO vomiting</td><td class="sy">B. cereus: rice; emetic form vomits early</td></tr>
+          <tr><td><b>EHEC vs EIEC vs Shigella</b><br>all can be bloody</td><td class="pa">EHEC: verocytotoxin; beef; HUS; no antibiotics</td><td class="pa">EIEC: invades colon, dysentery like Shigella; Shigella: Shiga toxin (type 1) and HUS</td></tr>
+</tbody></table></div>
+        <p class="ar" lang="ar">أزواج متشابهة تأتي في الامتحان: سالمونيلا (متحركة، دواجن، حمى) مقابل شيجيلا (غير متحركة، بشرية فقط، دم ومخاط). كوليرا (ماء أرز، بلا ألم) مقابل ETEC (إسهال مسافرين). عنقودية (حليب وكعك) مقابل عصوية (أرز). حاطمة (لحم، بلا قيء) مقابل عصوية (أرز، قيء). EHEC (لحم بقري، HUS) مقابل EIEC (زحار).</p>
+      </article>
+
+      <article class="mus full" style="--c:var(--h6)">
+        <header><span class="sw"></span><h3>5. Clinical picture to organism</h3></header>
+        <div class="cmpwrap"><table class="cmp" style="min-width:300px"><thead><tr><th>If the question says</th><th>Answer</th></tr></thead><tbody>
+          <tr><td>Bloody diarrhoea + kidney failure, beef burger</td><td class="pa">EHEC</td></tr>
+          <tr><td>Rice-water stool, painless</td><td class="sy">Vibrio cholerae</td></tr>
+          <tr><td>Pregnant, soft cheese, fever, meningitis</td><td class="pa">Listeria</td></tr>
+          <tr><td>Canned food, double vision, descending weakness</td><td class="sy">C. botulinum</td></tr>
+          <tr><td>Diarrhoea after clindamycin, yellow plaques</td><td class="pa">C. difficile</td></tr>
+          <tr><td>Fried rice, vomiting within hours</td><td class="sy">B. cereus (emetic)</td></tr>
+          <tr><td>Reheated meat, cramps, no vomiting</td><td class="pa">C. perfringens</td></tr>
+          <tr><td>Right iliac pain, child, animal contact</td><td class="sy">Yersinia enterocolitica</td></tr>
+          <tr><td>Epigastric pain, urease positive</td><td class="pa">H. pylori</td></tr>
+          <tr><td>Eggs, poultry, fever, loose stool</td><td class="sy">Salmonella</td></tr>
+          <tr><td>Blood and mucus, person to person</td><td class="pa">Shigella</td></tr>
+          <tr><td>Painful bleeding gums, pseudomembrane</td><td class="sy">Vincent's angina</td></tr></tbody></table></div>
+        <p class="ar" lang="ar">اقرأ الحالة السريرية وابحث عن الكلمة المفتاحية: لحم بقري مع فشل كلوي = EHEC، ماء أرز = كوليرا، جبن طري وحمل = ليستيريا، معلبات وشلل نازل = بوتولينوم، مضاد حيوي ثم إسهال = المطثية العسيرة.</p>
+      </article>
+    </div>
+
+  </section>
+
+  <section class="sec" id="s-cards">
+    <div class="sec-h"><h2>Question cards</h2><p>Read the question, answer aloud, then tap the card. Rate yourself honestly; "Review" cards come back first.</p></div>
+    <div class="deck-top"><div class="chips" id="dchips"></div><div class="score" id="score"></div></div>
+    <div class="pbar"><i id="dbar" style="width:0%"></i></div>
+    <div class="flip" id="flip"><div class="inner" id="inner"></div></div>
+    <div class="rate"><button class="btn rev" id="rRev" disabled>Review again</button><button class="btn got" id="rGot" disabled>Got it</button></div>
+    <div class="dnav"><button class="btn" id="dPrev">Previous</button><button class="btn" id="dShuf">Shuffle</button><button class="btn" id="dRev">Only review cards</button><button class="btn" id="dNext">Next</button></div>
+  </section>
+
+  <p class="foot">Source: your 6 GI bacteriology lectures (DHB 202; lecture 6 was not sent). Items marked * are added or uncertain. Arabic text explains the English content, which stays in English as your exam will be.</p>
+</div>
+<script>
+/* ===== svg kit ===== */
+const $=s=>document.querySelector(s),pad=n=>String(n).padStart(2,'0');
+/* label block with optional leader line. o: {a:'start'|'end'|'middle', col:'--h1', lx, ly} */
+function lb(x,y,head,subs,tx,ty,o){
+  o=o||{};subs=[].concat(subs||[]);const a=o.a||'start';
+  const lines=head?[head].concat(subs):subs;
+  let g='';
+  if(tx!=null){
+    const lx=o.lx!=null?o.lx:(a==='end'?x+4:(a==='start'?x-4:x));
+    const ly=o.ly!=null?o.ly:(a==='middle'?y+15*(lines.length-1)+7:y-4);
+    g+=`<line x1="${lx}" y1="${ly}" x2="${tx}" y2="${ty}"/><circle cx="${tx}" cy="${ty}" r="2.6"/>`;
+  }
+  lines.forEach((s,i)=>{
+    const isHead=head&&i===0;
+    g+=`<text${isHead?'':' class="sub"'} x="${x}" y="${y+15*i}" text-anchor="${a}"${isHead&&o.col?` style="fill:var(${o.col})"`:''}>${s}</text>`;
+  });
+  return `<g class="lab">${g}</g>`;
+}
+/* animated stroke path (arrow or plain) */
+const pth=(d,col,extra)=>`<path class="dr arrowp" pathLength="1" style="stroke:var(${col})" d="${d}" ${extra||''}/>`;
+/* sketch outline that draws itself */
+const sk=(d,cls,style)=>`<path class="sk dr ${cls||''}" pathLength="1" ${style?`style="${style}"`:''} d="${d}"/>`;
+/* soft fill that fades in */
+const fl=(d,col,pct)=>`<path class="fl" style="fill:color-mix(in srgb,var(${col}) ${pct||14}%,transparent);stroke:none" d="${d}"/>`;
+/* arrow / T-bar markers */
+const mk=(id,col,t)=>t
+  ?`<marker id="${id}" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M5 0V10" style="stroke:var(${col});stroke-width:2.6;fill:none"/></marker>`
+  :`<marker id="${id}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" style="fill:var(${col})"/></marker>`;
+/* numbered circle marker (draws on the sketch) */
+const mkc=(n,x,y,col)=>`<circle cx="${x}" cy="${y}" r="10" style="fill:var(--surface);stroke:var(${col});stroke-width:2.6"/><text x="${x}" y="${y+4}" text-anchor="middle" style="font:700 12px var(--f-body);fill:var(--ink)">${n}</text>`;
+/* numbered key row (legend), part of a layer's labels */
+const keyRow=(n,y,col,name,desc)=>`<g class="lab"><circle cx="22" cy="${y-4}" r="8.5" style="fill:var(--surface);stroke:var(${col});stroke-width:2.2"/><text x="22" y="${y}" text-anchor="middle" style="font:700 11px var(--f-body);fill:var(--ink)">${n}</text><text x="40" y="${y}" style="fill:var(${col});font:700 13px var(--f-body)">${name}</text><text x="${desc[0]}" y="${y}" class="sub">${desc[1]}</text></g>`;
+const Ly=(id,inner)=>`<g class="layer" id="${id}">${inner}</g>`;
+const Tr=(x,y,inner)=>`<g transform="translate(${x},${y})">${inner}</g>`;
+const plain=(x,y,s,o)=>{o=o||{};return `<text x="${x}" y="${y}" class="${o.sub?'sub':''}" text-anchor="${o.a||'start'}"${o.col?` style="fill:var(${o.col})"`:''}>${s}</text>`};
+
+const PAGE={lsk:'gib-v2',totalMin:60,idle:'Open the 6 lecture PDFs next to this page and press Start.'};
+const STEPS=[
+ {a:0,b:4,t:'Top points table',en:'Read the top-points table once, then say the three media aloud: MacConkey or DCA (Salmonella, Shigella), TCBS (Vibrio), Skirrow (Campylobacter, Helicobacter).',ar:'اقرأ جدول أهم النقاط مرة واحدة، ثم قُل الأوساط الثلاثة بصوت عالٍ: ماكونكي أو DCA (سالمونيلا وشيجيلا)، TCBS (الضمة)، وسكيرو (كامبيلوباكتر والملوية).'},
+ {a:4,b:12,t:'Parts 1 and 2: mouth, H. pylori',en:'One minute on the mouth and oesophagus. Spend the rest on H. pylori: urease, CagA, VacA, rapid urease test, triple therapy. Press Play all on its drawing.',ar:'دقيقة واحدة للفم والمريء ثم باقي الوقت على الملوية البوابية: اليورياز وCagA وVacA واختبار اليورياز السريع والعلاج الثلاثي. اضغط Play all على رسمتها.'},
+ {a:12,b:27,t:'Part 3: food poisoning',en:'S. aureus, B. cereus, C. perfringens, Salmonella, Listeria, botulism. For each one say: wait, food, vomiting or not, fever or not. Play the Listeria and botulism drawings.',ar:'العنقودية والعصوية والحاطمة والسالمونيلا والليستيريا والبوتولينوم. لكل واحدة قُل: مدة الحضانة، الطعام، قيء أم لا، حمى أم لا. شغّل رسمتي الليستيريا والبوتولينوم.'},
+ {a:27,b:37,t:'Parts 4 and 5: C. difficile, Yersinia, E. coli',en:'C. difficile after antibiotics (toxins A and B, stool toxin test), Yersinia mimicking appendicitis, then the six E. coli types matched to their mechanism.',ar:'المطثية العسيرة بعد المضادات (السمان A وB واختبار سم البراز)، واليرسينيا التي تقلّد الزائدة، ثم أنواع الإشريكية الستة مع آلية كل نوع.'},
+ {a:37,b:44,t:'Part 6: cholera and Shigella',en:'Cholera: cAMP, rice-water stool, TCBS. Shigella: invasion, Shiga toxin, HUS, ciprofloxacin. Play the cholera drawing.',ar:'الكوليرا: cAMP وبراز كماء الأرز وTCBS. الشيجيلا: الغزو وسم شيجا وHUS والسيبروفلوكساسين. شغّل رسمة الكوليرا.'},
+ {a:44,b:52,t:'Connect',en:'Toxin map, waiting-time table, plate and drug table, look-alike pairs. Cover the right column and say it.',ar:'خريطة السموم، جدول مدة الحضانة، جدول الوسط والدواء، والأزواج المتشابهة. غطِّ العمود الأيمن وقُلها.'},
+ {a:52,b:58,t:'Question cards',en:'Answer aloud. Mark every miss as Review, then do the Review cards once.',ar:'أجب بصوت عالٍ، وعلّم كل خطأ بكلمة Review، ثم أعد بطاقات Review مرة واحدة.'},
+ {a:58,b:60,t:'Log the gaps',en:'In your Study Log write what you could not say, and when you will see it again.',ar:'اكتب في سجل المذاكرة ما عجزت عن قوله ومتى ستراجعه.'}
+];
+const DRAW=[
+ {svg:'svgA',layer:'A1',k:'H. pylori',t:'Through the acid',
+  en:'Swallowed (faeco-oral) into the stomach lumen where acid would kill it. By active motility it swims into the mucus layer near the epithelium, where the pH is about 7.',
+  ar:'تُبتلع (برازي فموي) وتصل لمعة المعدة حيث يقتلها الحمض. بحركتها النشطة تسبح داخل طبقة المخاط قرب الظهارة حيث الأس الهيدروجيني نحو 7.'},
+ {svg:'svgA',layer:'A2',k:'H. pylori',t:'Protease and urease',
+  en:'A protease modifies the mucus; urease splits urea into ammonia, which neutralises the acid so it survives and multiplies. It does not invade the mucosa; it recruits inflammatory cells.',
+  ar:'يعدّل البروتييز المخاط؛ ويحلل اليورياز اليوريا إلى أمونيا تعادل الحمض فتعيش وتتكاثر. لا تغزو المخاطية لكنها تستقطب خلايا الالتهاب.'},
+ {svg:'svgA',layer:'A3',k:'H. pylori',t:'Damage and disease',
+  en:'CagA and VacA plus ammonia destroy the mucosa and the mucus coat is lost. Result: gastritis, peptic ulcer; long standing atrophic gastritis raises gastric cancer risk.',
+  ar:'سمّا CagA وVacA مع الأمونيا يدمران المخاطية ويضيع غطاء المخاط. النتيجة: التهاب معدة وقرحة هضمية؛ والالتهاب الضموري الطويل يزيد خطر سرطان المعدة.'},
+ {svg:'svgB',layer:'B1',k:'Listeria',t:'Food to the gut',
+  en:'Contaminated food (unpasteurised milk, soft cheese, deli meats). Internalins let it enter intestinal epithelial cells; listeriolysin O frees it from the phagosome.',
+  ar:'طعام ملوث (حليب غير مبستر، جبن طري، لحوم باردة). تسمح الإنترناليتات بدخول الخلايا الظهارية المعوية ويحرّرها ليستيريوليسين O من الجسيم البلعمي.'},
+ {svg:'svgB',layer:'B2',k:'Listeria',t:'Inside the cell',
+  en:'It multiplies in the cytoplasm. ActA makes an actin tail that pushes it into the next cell, so it spreads cell to cell and avoids antibodies.',
+  ar:'تتكاثر في الهيولى. يصنع ActA ذيل أكتين يدفعها للخلية التالية فتنتشر من خلية لخلية وتتجنب الأجسام المضادة.'},
+ {svg:'svgB',layer:'B3',k:'Listeria',t:'Spread and treatment',
+  en:'It reaches the blood (septicaemia), meninges (meningitis) and placenta (abortion, stillbirth). Treat with ampicillin plus gentamicin; cephalosporins do not work.',
+  ar:'تصل الدم (تسمم دم) والسحايا (التهاب سحايا) والمشيمة (إجهاض وولادة ميتة). العلاج أمبيسيلين مع جنتاميسين؛ السيفالوسبورينات لا تفيد.'},
+ {svg:'svgC',layer:'C1',k:'Botulism',t:'Spores to toxin',
+  en:'Spores in improperly canned food germinate in the anaerobic can and make the toxin. The pre-formed toxin is eaten and absorbed into the blood.',
+  ar:'الأبواغ في معلبات غير مُعقَّمة جيدًا تنبت في الوسط اللاهوائي وتنتج السم. يُؤكل السم الجاهز ويُمتص إلى الدم.'},
+ {svg:'svgC',layer:'C2',k:'Botulism',t:'Blocked acetylcholine',
+  en:'The toxin blocks ACh release at peripheral cholinergic synapses: descending symmetrical flaccid paralysis, no sensory loss, conscious patient; death from respiratory failure. Add the treatment box.',
+  ar:'يمنع السم تحرر الأسيتيل كولين عند المشابك الكولينية المحيطية: شلل رخو متناظر نازل بلا فقد حس والمريض واعٍ؛ الوفاة من فشل التنفس. أضف مربع العلاج.'},
+ {svg:'svgD',layer:'D1',k:'C. difficile',t:'Antibiotics open the door',
+  en:'Clindamycin, 3rd generation cephalosporins, ampicillin or amoxicillin suppress the normal flora, so C. difficile multiplies.',
+  ar:'الكليندامايسين والجيل الثالث من السيفالوسبورينات والأمبيسيلين والأموكسيسيلين تثبط الفلورا الطبيعية فتتكاثر المطثية العسيرة.'},
+ {svg:'svgD',layer:'D2',k:'C. difficile',t:'Two toxins',
+  en:'Toxin A is the enterotoxin (watery diarrhoea); toxin B is the cytotoxin (enterocyte death). Result: pseudomembranous colitis with yellow plaques. Add the test and treatment box.',
+  ar:'السم A سم معوي (إسهال مائي) والسم B سم خلوي (موت الخلايا المعوية). النتيجة: التهاب قولون غشائي كاذب بلويحات صفراء. أضف مربع التحليل والعلاج.'},
+ {svg:'svgE',layer:'E1',k:'ETEC',t:'The heat-labile toxin',
+  en:'ETEC (travellers and infantile diarrhoea): the heat-labile toxin (LT) activates adenylate cyclase, cAMP rises, and fluid, K+ and chloride pour into the gut lumen: watery diarrhoea.',
+  ar:'ETEC (إسهال المسافرين والرضع): السم الحساس للحرارة (LT) ينشط الأدينيلات سيكلاز فيرتفع cAMP ويتدفق الماء والبوتاسيوم والكلوريد إلى لمعة الأمعاء: إسهال مائي.'},
+ {svg:'svgE',layer:'E2',k:'ETEC and EHEC',t:'The heat-stable toxin, and EHEC',
+  en:'The heat-stable toxin (ST) activates guanylate cyclase: cGMP rises: watery diarrhoea. Add the EHEC box: verocytotoxin blocks protein synthesis: bloody diarrhoea and HUS; avoid antibiotics.',
+  ar:'السم الثابت للحرارة (ST) ينشط الغوانيلات سيكلاز فيرتفع cGMP: إسهال مائي. أضف مربع EHEC: السم الشبيه بشيجا يثبط تصنيع البروتين: إسهال دموي ومتلازمة انحلال الدم اليوريمية؛ لا مضادات حيوية.'},
+ {svg:'svgF',layer:'F1',k:'Cholera',t:'Water to the gut',
+  en:'Faeco-oral spread through water or food contaminated by a case or carrier. In the small intestine, motility and mucinase help it reach the cells; the toxin (A and B subunits) binds.',
+  ar:'ينتقل برازي فموي عبر ماء أو طعام ملوث من مريض أو حامل. في الأمعاء الدقيقة تساعده الحركة وإنزيم الموسيناز على الوصول للخلايا، ويرتبط السم (وحدتان A وB).'},
+ {svg:'svgF',layer:'F2',k:'Cholera',t:'cAMP and rice water',
+  en:'Adenylate cyclase stays permanently on, cAMP rises, water and electrolytes pour out: watery, painless, non-bloody rice-water stool.',
+  ar:'يبقى الأدينيلات سيكلاز نشطًا دائمًا فيرتفع cAMP ويتدفق الماء والأملاح: براز مائي كماء الأرز بلا ألم ولا دم.'},
+ {svg:'svgF',layer:'F3',k:'Cholera',t:'Consequences and treatment',
+  en:'Dehydration, acidosis, hypokalaemia, cardiac and renal failure; 40% mortality untreated. Treat with fluids and electrolytes; doxycycline or ciprofloxacin shortens the illness and carriage.',
+  ar:'جفاف وحماض ونقص بوتاسيوم وفشل قلب وكلى؛ الوفيات 40% دون علاج. العلاج: سوائل وأملاح؛ والدوكسيسيكلين أو السيبروفلوكساسين يقصّر المرض والحمل.'}
+];
+
+const CARDS=[
+ {ty:'Recall',q:'H. pylori virulence: what does each factor do?',a:'<ul><li>Motility: moves through mucus</li><li>Urease: ammonia neutralises acid</li><li>Protease: penetrates mucus</li><li>CagA: destroys mucosa, chronic inflammation, cancer</li><li>VacA: epithelial cell death, ulcer</li></ul>',ar:'الحركة، اليورياز (الأمونيا)، البروتييز، CagA (سرطان)، VacA (قرحة).'},
+ {ty:'Recall',q:'H. pylori eradication regimen?',a:'Clarithromycin + amoxicillin (or metronidazole) + proton pump inhibitor, for 1 to 2 weeks.',ar:'كلاريثروميسين + أموكسيسيلين (أو ميترونيدازول) + مثبط المضخة.'},
+ {ty:'Recall',q:'B. cereus: the two toxins with timing?',a:'Emetic toxin: 1 to 6 h (like S. aureus). Diarrhoeal toxin: about 18 h (like cholera, raises cAMP).',ar:'سم التقيؤ 1-6 ساعات، سم الإسهال نحو 18 ساعة (cAMP).'},
+ {ty:'Recall',q:'Listeria: six lab features that identify it?',a:'<ul><li>Short Gram-positive rods</li><li>Catalase positive</li><li>Narrow beta-haemolysis</li><li>Grows at 4 C (cold enrichment)</li><li>Tumbling motility (umbrella in semi-solid agar)</li><li>CAMP positive</li></ul>',ar:'قصيرة موجبة الغرام، كاتاليز، انحلال ضيق، تنمو على 4، حركة متدحرجة، CAMP.'},
+ {ty:'Recall',q:'Botulism: how does the toxin act and what are the early signs?',a:'Pre-formed toxin blocks acetylcholine release at peripheral cholinergic synapses. Dry mouth, blurred vision, diplopia, ptosis, dysphagia, then descending flaccid paralysis; conscious, no sensory loss.',ar:'يمنع تحرر الأسيتيل كولين، شلل رخو نازل والمريض واعٍ.'},
+ {ty:'Recall',q:'C. difficile: which antibiotics trigger it, and what are toxins A and B?',a:'Clindamycin, 3rd generation cephalosporins, amoxicillin, ampicillin. Toxin A: enterotoxin (watery diarrhoea). Toxin B: cytotoxin (enterocyte death).',ar:'A سم معوي وB سم خلوي.'},
+ {ty:'Recall',q:'Yersinia enterocolitica: three lab clues and who gets it?',a:'Bipolar staining, motile at 25 C but not 37 C, urease positive. Mostly children under 15; animal-faeces contamination.',ar:'قطبية الصبغة، متحركة على 25 فقط، موجبة اليورياز.'},
+ {ty:'Recall',q:'ETEC: both toxins and the usual patient?',a:'LT raises cAMP; ST raises cGMP. Travellers\' diarrhoea and infantile watery diarrhoea.',ar:'LT يرفع cAMP وST يرفع cGMP.'},
+ {ty:'Recall',q:'EHEC: toxin, food, key complication and the treatment rule?',a:'Verocytotoxin (Shiga-like); raw or undercooked beef; bloody diarrhoea then HUS (haemolytic anaemia, low platelets, acute renal failure); avoid antibiotics.',ar:'فيروتوكسين، لحم بقري، دم وHUS، لا مضادات.'},
+ {ty:'Recall',q:'Cholera toxin: mechanism and what the stool looks like?',a:'A-B enterotoxin, persistent adenylate cyclase activation, cAMP up, hypersecretion: watery rice-water stool, no blood, no pain.',ar:'يرفع cAMP: براز كماء الأرز بدون دم وألم.'},
+ {ty:'Recall',q:'Shigella: toxin, complication and drug of choice?',a:'Shiga toxin (S. dysenteriae 1) inhibits protein synthesis, causes HUS. Ciprofloxacin; TMP-SMX alternative; mild cases no antibiotic.',ar:'سم شيجا وHUS، والسيبروفلوكساسين.'},
+ {ty:'Compare',q:'S. aureus versus B. cereus (emetic): what is the same and what differs?',a:'Same: 1 to 6 h, pre-formed toxin, vomiting, no fever. Differs: S. aureus in milk products, cakes (cocci, nasal carrier); B. cereus in reheated fried rice (spore-forming bacillus).',ar:'نفس الحضانة والسم الجاهز؛ الاختلاف الطعام: حليب وكعك مقابل أرز.'},
+ {ty:'Compare',q:'C. perfringens versus B. cereus: the one sign that separates them?',a:'C. perfringens (reheated meat, 8 to 24 h): no vomiting. B. cereus emetic (rice, 1 to 6 h): vomiting.',ar:'الحاطمة بدون قيء والعصوية مع قيء.'},
+ {ty:'Compare',q:'Salmonella versus Shigella: motility, host, site and treatment.',a:'Salmonella: motile, animal sources (poultry, eggs), ileocaecal, fever, fluids only. Shigella: non-motile, human only, colon, blood + mucus, Shiga toxin, ciprofloxacin if severe. Both non-lactose fermenters.',ar:'سالمونيلا متحركة وحيوانية المصدر؛ شيجيلا غير متحركة وبشرية.'},
+ {ty:'Compare',q:'Cholera versus ETEC: what do both share, and what separates them?',a:'Both raise cAMP and cause watery diarrhoea. Cholera: rice-water, severe, 40% mortality untreated, TCBS. ETEC: travellers\' and infantile diarrhoea; also ST raises cGMP.',ar:'الاثنان يرفعان cAMP؛ الكوليرا أشد وماء أرز.'},
+ {ty:'Compare',q:'Which food poisoning agents cause fever and which do not?',a:'No fever: S. aureus, B. cereus, C. perfringens, botulism (pre-formed toxins). Fever: Salmonella, Shigella, Yersinia, Listeria (invasive).',ar:'السموم الجاهزة بلا حمى والغازية بحمى.'},
+ {ty:'Compare',q:'Treatments where an antibiotic is harmful or useless: name them.',a:'Food-borne botulism (antitoxin only), EHEC (HUS risk), Salmonella/S. aureus/B. cereus/C. perfringens (self-limited), Listeria (cephalosporins fail).',ar:'البوتولينوم وEHEC بلا مضادات؛ الليستيريا لا تنفع السيفالوسبورينات.'},
+ {ty:'Clinical',q:'A man ate a fried rice dish left at room temperature and vomited 3 hours later, no fever. Organism and toxin?',a:'Bacillus cereus, emetic toxin (like S. aureus enterotoxin). Fluids only.',ar:'العصوية الشمعية، سم التقيؤ.'},
+ {ty:'Clinical',q:'A family ate home-canned beans. Two days later one has diplopia, ptosis and descending weakness. Diagnosis and treatment?',a:'Botulism (C. botulinum toxin). Heptavalent antitoxin and ventilatory support; no antibiotics.',ar:'بوتولينوم: مضاد سم ودعم تنفسي بلا مضادات حيوية.'},
+ {ty:'Clinical',q:'A pregnant woman with fever ate soft cheese. Blood culture shows Gram-positive rods with tumbling motility. Treatment?',a:'Listeria monocytogenes: ampicillin + gentamicin (not cephalosporins).',ar:'ليستيريا: أمبيسيلين + جنتاميسين.'},
+ {ty:'Clinical',q:'A hospital patient on clindamycin develops fever and watery diarrhoea; colonoscopy shows yellow plaques. Test and treatment?',a:'C. difficile: stool toxin assay; stop clindamycin; metronidazole or vancomycin.',ar:'المطثية العسيرة: سموم البراز وإيقاف المضاد.'},
+ {ty:'Clinical',q:'A man with burning epigastric pain; rapid urease test turns pink in 2 h. Organism and plan?',a:'H. pylori; clarithromycin + amoxicillin (or metronidazole) + PPI for 1 to 2 weeks.',ar:'الملوية البوابية، علاج ثلاثي.'},
+ {ty:'Clinical',q:'A child after a barbecue has bloody diarrhoea, then anaemia, low platelets and renal failure. Organism and the treatment error to avoid?',a:'EHEC (verocytotoxin, HUS). Avoid antibiotics.',ar:'EHEC؛ تجنب المضادات الحيوية.'},
+ {ty:'Clinical',q:'A patient in an epidemic has painless rice-water stools and sunken eyes. Organism, medium and therapy?',a:'Vibrio cholerae; TCBS; fluids + doxycycline or ciprofloxacin.',ar:'الكوليرا، TCBS، سوائل ودوكسيسيكلين.'},
+ {ty:'Clinical',q:'A child has fever, cramps and bloody mucoid stools; the stool grows a non-lactose-fermenting non-motile rod. Organism and drug?',a:'Shigella; ciprofloxacin if severe (TMP-SMX alternative).',ar:'الشيجيلا، سيبروفلوكساسين.'},
+ {ty:'MCQ',q:'A pre-formed enterotoxin acting within 1 to 6 hours with vomiting and no fever is typical of:',opts:['Salmonella enteritidis','Staphylococcus aureus','Clostridium perfringens','Shigella dysenteriae'],a:'B. Staphylococcus aureus.',ar:'السم الجاهز يعني حضانة قصيرة بلا حمى.'},
+ {ty:'MCQ',q:'Which organism causes diarrhoea but NO vomiting after reheated meat?',opts:['S. aureus','B. cereus (emetic)','C. perfringens','C. botulinum'],a:'C. C. perfringens.',ar:'الحاطمة: بدون قيء.'},
+ {ty:'MCQ',q:'The toxin of C. botulinum acts by:',opts:['Raising cAMP','Blocking acetylcholine release','Blocking protein synthesis','Acting as a superantigen'],a:'B. Blocking acetylcholine release (flaccid paralysis).',ar:'يمنع تحرر الأسيتيل كولين.'},
+ {ty:'MCQ',q:'Treatment of food-borne botulism includes:',opts:['Ampicillin','Ciprofloxacin','Heptavalent antitoxin and ventilation','Metronidazole'],a:'C. Antitoxin and respiratory support; no antibiotics.',ar:'مضاد السم والتنفس.'},
+ {ty:'MCQ',q:'Which organism grows at 4 C and is treated with ampicillin + gentamicin?',opts:['Yersinia','Listeria monocytogenes','Salmonella','B. cereus'],a:'B. Listeria monocytogenes (cold enrichment).',ar:'ليستيريا.'},
+ {ty:'MCQ',q:'Best way to diagnose C. difficile colitis:',opts:['Stool culture','Blood culture','Toxin detection in stool','Gram film of stool'],a:'C. Toxin detection; culture is not diagnostic (normal flora).',ar:'السموم وليس الزرع.'},
+ {ty:'MCQ',q:'Yersinia enterocolitica is characterised by:',opts:['Capsule and urease negative','Bipolar staining, motile at 25 C, urease positive','Oxidase positive, grows at 42 C','Comma shape on TCBS'],a:'B. Bipolar staining, motile at 25 C not 37 C, urease positive.',ar:'صبغة قطبية، متحركة على 25.'},
+ {ty:'MCQ',q:'Which organism is urease positive and microaerophilic, causing peptic ulcer?',opts:['Campylobacter jejuni','Helicobacter pylori','Vibrio cholerae','Shigella'],a:'B. Helicobacter pylori.',ar:'الملوية البوابية.'},
+ {ty:'MCQ',q:'Which E. coli type produces both LT and ST?',opts:['EHEC','EIEC','ETEC','EPEC'],a:'C. ETEC.',ar:'ETEC.'},
+ {ty:'MCQ',q:'Haemolytic uraemic syndrome is associated with:',opts:['EPEC','ETEC','EHEC and Shigella dysenteriae 1','V. cholerae'],a:'C. EHEC (verocytotoxin) and S. dysenteriae 1 (Shiga toxin).',ar:'EHEC وشيجيلا ديسنتيريا 1.'},
+ {ty:'MCQ',q:'Rice-water stool is caused by:',opts:['Persistent adenylate cyclase activation','Inhibition of protein synthesis','Invasion of colonic epithelium','Release of a superantigen'],a:'A. Cholera toxin: persistent adenylate cyclase activation, cAMP.',ar:'يرفع cAMP.'},
+ {ty:'MCQ',q:'Drug of choice for severe shigellosis:',opts:['Ampicillin','Ciprofloxacin','Metronidazole','Doxycycline'],a:'B. Ciprofloxacin (TMP-SMX alternative).',ar:'سيبروفلوكساسين.'},
+];
+
+/* ===== helpers ===== */
+const bx=(x,y,w,h,col,t1,t2,t3)=>`<rect class="fl" x="${x}" y="${y}" width="${w}" height="${h}" rx="10" style="fill:color-mix(in srgb,var(${col}) 14%,var(--surface))"/><rect class="sk dr" pathLength="1" x="${x}" y="${y}" width="${w}" height="${h}" rx="10" style="stroke:var(${col});stroke-width:2.2"/><g class="lab"><text x="${x+w/2}" y="${y+19}" text-anchor="middle">${t1}</text>${t2?`<text class="sub" x="${x+w/2}" y="${y+35}" text-anchor="middle">${t2}</text>`:''}${t3?`<text class="sub" x="${x+w/2}" y="${y+49}" text-anchor="middle">${t3}</text>`:''}</g>`;
+const bxl=(x,y,w,h,col,head,lines)=>`<rect class="fl" x="${x}" y="${y}" width="${w}" height="${h}" rx="10" style="fill:color-mix(in srgb,var(${col}) 12%,var(--surface))"/><rect class="sk dr" pathLength="1" x="${x}" y="${y}" width="${w}" height="${h}" rx="10" style="stroke:var(${col});stroke-width:2.2"/><g class="lab"><text x="${x+12}" y="${y+20}" style="fill:var(${col})">${head}</text>${lines.map((s,i)=>`<text class="sub" x="${x+12}" y="${y+38+15*i}">${s}</text>`).join('')}</g>`;
+const pw=(d,col,w,m)=>`<path class="dr arrowp" pathLength="1" style="stroke:var(${col});stroke-width:${w}" d="${d}"${m?` marker-end="url(#${m})"`:''}/>`;
+const defsP=`<defs>${mk('pa','--m-ta')}</defs>`;
+/* column x: 10, 235, 460 (w 170); row y: 20, 130, 240 (h 56) */
+const CX=[10,235,460], RY=[20,130,240], W=170, H=58;
+const nd=(c,r,col,t1,t2,t3)=>bx(CX[c],RY[r],W,H,col,t1,t2,t3);
+const hR=(r,c1,c2)=>{const y=RY[r]+H/2;return c2>c1?pw(`M${CX[c1]+W+3} ${y}H${CX[c2]-5}`,'--m-ta',2.6,'pa'):pw(`M${CX[c1]-3} ${y}H${CX[c2]+W+5}`,'--m-ta',2.6,'pa')};
+const vD=(c,r)=>pw(`M${CX[c]+W/2} ${RY[r]+H+2}V${RY[r+1]-5}`,'--m-ta',2.6,'pa');
+
+
+/* ===== svgA: H. pylori ===== */
+const A1=Ly('A1',nd(0,0,'--h3','Swallowed','faeco-oral')+nd(1,0,'--m-ta','Stomach lumen','acid would kill it')+nd(2,0,'--h6','Active motility','into the mucus','pH about 7')+hR(0,0,1)+hR(0,1,2));
+const A2=Ly('A2',nd(2,1,'--m-eo','Protease','modifies the mucus')+nd(1,1,'--m-io','Urease','urea to ammonia')+nd(0,1,'--h6','Acid neutralised','survives, multiplies')+vD(2,0)+hR(1,2,1)+hR(1,1,0));
+const A3=Ly('A3',nd(0,2,'--m-io','CagA, VacA, ammonia','destroy the mucosa')+nd(1,2,'--m-eo','Mucus coat lost','gastritis, peptic ulcer')+nd(2,2,'--m-ta','Long standing','atrophic gastritis, cancer')+vD(0,1)+hR(2,0,1)+hR(2,1,2)
+  +bxl(10,330,620,74,'--h3','Remember',['Curved Gram-negative rod, urease positive, microaerophilic, Skirrow medium.','Triple therapy for 1 to 2 weeks: clarithromycin + amoxicillin (or metronidazole) + PPI.']));
+$('#svgA').innerHTML=defsP+A1+A2+A3;
+
+/* ===== svgB: Listeria ===== */
+const B1=Ly('B1',nd(0,0,'--h3','Contaminated food','milk, soft cheese, deli')+nd(1,0,'--m-eo','Gut epithelium','internalins: entry')+nd(2,0,'--m-io','Phagosome','listeriolysin O: escape')+hR(0,0,1)+hR(0,1,2));
+const B2=Ly('B2',nd(2,1,'--m-io','Cytoplasm','multiplies')+nd(1,1,'--m-ta','ActA','actin tail pushes it')+nd(0,1,'--h6','Next cell','cell to cell, avoids antibody')+vD(2,0)+hR(1,2,1)+hR(1,1,0));
+const B3=Ly('B3',nd(0,2,'--m-io','Bloodstream','septicaemia')+nd(1,2,'--m-ta','Brain','meningitis')+nd(2,2,'--h6','Placenta','abortion, stillbirth')+vD(0,1)+hR(2,0,1)+hR(2,1,2)
+  +bxl(10,330,620,74,'--m-io','High-risk: pregnancy, neonates, elderly, immunocompromised',['Grows at 4 C, tumbling motility, narrow beta-haemolysis, CAMP positive.','Ampicillin + gentamicin. Cephalosporins are NOT effective.']));
+$('#svgB').innerHTML=defsP+B1+B2+B3;
+
+/* ===== svgC: botulism ===== */
+const C1=Ly('C1',nd(0,0,'--h3','Canned food','improper canning')+nd(1,0,'--m-eo','Spores germinate','toxin made in the can')+nd(2,0,'--m-io','Eaten pre-formed','absorbed into blood')+hR(0,0,1)+hR(0,1,2));
+const C2=Ly('C2',nd(2,1,'--m-ta','Peripheral synapses','block ACh release')+nd(1,1,'--m-io','Flaccid paralysis','descending, symmetrical')+nd(0,1,'--h6','Respiratory failure','main cause of death')+vD(2,0)+hR(1,2,1)+hR(1,1,0)
+  +bxl(10,240,620,106,'--h3','Treat and prevent',['Antitoxin neutralises circulating toxin only. Ventilation. No antibiotics in food-borne botulism.','Toxin: 85 C for 5 min destroys it. Spores need 121 C. No honey under 1 year.','No fever, no inflammation, patient conscious, no sensory loss.']));
+$('#svgC').innerHTML=defsP+C1+C2;
+
+/* ===== svgD: C. difficile ===== */
+const D1=Ly('D1',nd(0,0,'--h3','Antibiotics','clindamycin, cephalosporins,','ampicillin, amoxicillin')+nd(1,0,'--m-ta','Normal flora','suppressed')+nd(2,0,'--m-io','C. difficile','multiplies')+hR(0,0,1)+hR(0,1,2));
+const D2=Ly('D2',nd(2,1,'--m-eo','Toxin A','enterotoxin: watery')+nd(1,1,'--m-io','Toxin B','cytotoxin: cell death')+nd(0,1,'--h6','Pseudomembranes','yellow plaques on colon')+vD(2,0)+hR(1,2,1)+hR(1,1,0)
+  +bxl(10,240,620,90,'--h3','Test and treat',['Stool toxin (ELISA, cytotoxicity, PCR). Stool culture is NOT diagnostic.','Stop the causative antibiotic, fluids, oral metronidazole or vancomycin.','Chronic: faecal transplant (bacterial interference).']));
+$('#svgD').innerHTML=defsP+D1+D2;
+
+/* ===== svgE: ETEC and EHEC ===== */
+const E1=Ly('E1',nd(0,0,'--h3','LT (heat-labile)','adenylate cyclase up')+nd(1,0,'--m-ta','cAMP up','')+nd(2,0,'--m-eo','Fluid, K+, chloride','pour into the lumen')+hR(0,0,1)+hR(0,1,2)+nd(2,1,'--h6','Watery diarrhoea','small intestine')+vD(2,0));
+const E2=Ly('E2',nd(0,2,'--h3','ST (heat-stable)','guanylate cyclase up')+nd(1,2,'--m-ta','cGMP up','')+nd(2,2,'--h6','Watery diarrhoea','')+hR(2,0,1)+hR(2,1,2)
+  +bxl(10,330,620,74,'--m-io','EHEC (beef): verocytotoxin',['Shiga-like toxin blocks protein synthesis: bloody diarrhoea and HUS.','Antibiotics raise the risk of HUS. Rehydrate only.']));
+$('#svgE').innerHTML=defsP+E1+E2;
+
+/* ===== svgF: cholera ===== */
+const F1=Ly('F1',nd(0,0,'--h3','Contaminated water','case or carrier')+nd(1,0,'--m-ta','Small intestine','motility, mucinase')+nd(2,0,'--m-eo','Toxin binds','A and B subunits')+hR(0,0,1)+hR(0,1,2));
+const F2=Ly('F2',nd(2,1,'--m-io','Adenylate cyclase','permanently on')+nd(1,1,'--m-io','cAMP up','water, electrolytes out')+nd(0,1,'--h6','Rice-water stool','painless, no blood')+vD(2,0)+hR(1,2,1)+hR(1,1,0));
+const F3=Ly('F3',nd(0,2,'--m-io','Dehydration','acidosis, low K+')+nd(1,2,'--m-eo','Shock, renal failure','40% die untreated')+nd(2,2,'--h6','Treat','fluids; doxycycline')+vD(0,1)+hR(2,0,1)+hR(2,1,2)
+  +bxl(10,330,620,74,'--h3','Lab',['Stool: latex agglutination O1 and O139; motility; TCBS medium (alkaline).','Carriers: alkaline peptone water first. Oral vaccines: limited (50% and 80%, 3 to 6 months).']));
+$('#svgF').innerHTML=defsP+F1+F2+F3;
+
+/* ===== engine ===== */
+let S={steps:{},cards:{}};
+try{const v=localStorage.getItem(PAGE.lsk);if(v)S=Object.assign(S,JSON.parse(v))}catch(e){}
+const save=()=>{try{localStorage.setItem(PAGE.lsk,JSON.stringify(S))}catch(e){}};
+
+/* nav */
+const navB=[...document.querySelectorAll('#nav button')],secs=navB.map(b=>b.dataset.go);
+$('#nav').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;document.getElementById(b.dataset.go).scrollIntoView({behavior:'smooth',block:'start'})});
+addEventListener('scroll',()=>{let cur=secs[0];secs.forEach(id=>{const el=document.getElementById(id);if(el&&el.getBoundingClientRect().top<140)cur=id});navB.forEach(b=>b.classList.toggle('on',b.dataset.go===cur))},{passive:true});
+
+/* timeline */
+const fmt=m=>m===0?'0:00':`${Math.floor(m/60)}:${pad(m%60)}`;
+const TOT=PAGE.totalMin*60,CIRC=358.1;
+$('#clOf').textContent='of '+Math.floor(TOT/3600)+':'+pad(Math.floor(TOT%3600/60))+':00';
+$('#tl').innerHTML=STEPS.map((s,i)=>`<li class="step" id="st${i}"><div class="tm"><b>${fmt(s.a)}</b>${s.b-s.a} min</div><div class="spine"><span class="node"></span></div>
+ <div class="scard"><div class="top"><h4>${s.t}</h4><span class="len">${fmt(s.a)} to ${fmt(s.b)}</span></div><p class="en">${s.en}</p><p class="ar" lang="ar">${s.ar}</p>
+ <button class="tick" data-st="${i}" aria-label="Mark step ${i+1} done"><i><svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></i>Done</button></div></li>`).join('');
+const CL={el:0,run:false,t:null,last:0};
+function paintSteps(){STEPS.forEach((s,i)=>{const e=$('#st'+i);e.classList.toggle('done',!!S.steps[i]);e.classList.toggle('cur',CL.run&&CL.el/60>=s.a&&CL.el/60<s.b)})}
+function paintClock(){
+  const e=Math.min(CL.el,TOT),h=Math.floor(e/3600),m=Math.floor(e%3600/60),s=e%60;
+  $('#clTxt').textContent=`${h}:${pad(m)}:${pad(s)}`;
+  $('#clRing').style.strokeDashoffset=CIRC*(1-e/TOT);
+  const idx=STEPS.findIndex(x=>e/60>=x.a&&e/60<x.b);
+  if(CL.el>0||CL.run){
+    if(e>=TOT){$('#clStep').textContent='Block finished';$('#clNow').textContent='Write your gaps in the Study Log and rest.'}
+    else if(idx>=0){const st=STEPS[idx];$('#clStep').textContent=`${idx+1}. ${st.t}`;$('#clNow').textContent=`${Math.ceil((st.b*60-e)/60)} min left in this step.`}
+  }
+  paintSteps();
+}
+function clStop(){CL.run=false;clearInterval(CL.t);$('#clGo').textContent=CL.el>0?'Resume':'Start'}
+$('#clGo').addEventListener('click',()=>{
+  if(CL.run){clStop();paintClock();return}
+  CL.run=true;CL.last=Date.now();$('#clGo').textContent='Pause';
+  CL.t=setInterval(()=>{const n=Date.now();CL.el+=Math.round((n-CL.last)/1000);CL.last=n;if(CL.el>=TOT){CL.el=TOT;clStop()}paintClock()},1000);paintClock()});
+$('#clReset').addEventListener('click',()=>{clStop();CL.el=0;$('#clGo').textContent='Start';$('#clStep').textContent='Ready when you are';$('#clNow').textContent=PAGE.idle;paintClock()});
+$('#tl').addEventListener('click',e=>{const b=e.target.closest('.tick');if(!b)return;const i=b.dataset.st;if(S.steps[i])delete S.steps[i];else S.steps[i]=1;save();paintSteps()});
+paintSteps();
+
+/* blurred recall sheets */
+document.querySelectorAll('.rtab').forEach(t=>{
+  t.addEventListener('click',e=>{const c=e.target.closest('td.rv');if(c)c.classList.toggle('shown')});
+  const b=t.querySelector('.rtBtn');let on=false;
+  if(b)b.addEventListener('click',()=>{on=!on;t.querySelectorAll('td.rv').forEach(c=>c.classList.toggle('shown',on));b.textContent=on?'Hide all answers':'Show all answers'});
+});
+
+/* drawing stepper (any number of svgs / steps) */
+if(typeof DRAW!=='undefined'&&DRAW.length&&!document.querySelector('.drawblk')){
+  const N=DRAW.length,SVGS=[...document.querySelectorAll('.canvas svg')];
+  let DS=0,seen={0:1},playT=null;
+  function setStep(n){
+    DS=Math.max(0,Math.min(N-1,n));seen[DS]=1;
+    const d=DRAW[DS];
+    SVGS.forEach(s=>s.toggleAttribute('hidden',s.id!==d.svg));
+    const svg=document.getElementById(d.svg);void svg.getBoundingClientRect();
+    const mine=DRAW.map((x,i)=>i).filter(i=>DRAW[i].svg===d.svg),fin=DS===mine[mine.length-1];
+    svg.classList.toggle('svg-past',!fin);
+    svg.querySelectorAll('.layer').forEach(g=>{
+      const si=DRAW.findIndex(x=>x.layer===g.id),base=si<0;
+      g.classList.toggle('on',base||si<=DS);
+      g.classList.toggle('past',!base&&si<DS&&!fin);
+      g.classList.toggle('off',!base&&si>DS);
+    });
+    $('#sbox').innerHTML=`<span class="k">Step ${DS+1} of ${N} · ${d.k}</span><h3>${d.t}</h3><p class="en">${d.en}</p><p class="ar" lang="ar">${d.ar}</p>`;
+    $('#dots').innerHTML=DRAW.map((_,i)=>`<button data-s="${i}" class="${i===DS?'on':seen[i]?'seen':''}" aria-label="Step ${i+1}">${i+1}</button>`).join('');
+    $('#sPrev').disabled=DS===0;$('#sNext').disabled=DS===N-1;
+  }
+  function stopPlay(){clearInterval(playT);playT=null;$('#sPlay').textContent='Play all'}
+  $('#dots').addEventListener('click',e=>{const b=e.target.closest('button');if(b){stopPlay();setStep(+b.dataset.s)}});
+  $('#sPrev').addEventListener('click',()=>{stopPlay();setStep(DS-1)});
+  $('#sNext').addEventListener('click',()=>{stopPlay();setStep(DS+1)});
+  $('#sPlay').addEventListener('click',()=>{if(playT){stopPlay();return}setStep(0);$('#sPlay').textContent='Stop';playT=setInterval(()=>{if(DS>=N-1){stopPlay();return}setStep(DS+1)},4500)});
+  setStep(0);
+}
+
+/* sequential, slow drawing of a layer: box, arrow, box, arrow ... (only for box-and-arrow layers) */
+const SEQ=new WeakMap();
+function seqClear(g){clearTimeout(SEQ.get(g));g.querySelectorAll('*').forEach(e=>{e.style.transition='';e.style.opacity=''})}
+function seqGeneric(g,f){
+  const D=[...g.querySelectorAll('.dr')],F=[...g.querySelectorAll('.fl')],Lb=[...g.querySelectorAll('.lab')];
+  if(!D.length&&!F.length&&!Lb.length)return 0;
+  const A=D.filter(e=>e.classList.contains('arrowp'));
+  A.forEach(a=>{a.style.transition='none';a.style.opacity='0'});
+  void g.getBoundingClientRect();
+  let t=.3*f;
+  D.forEach(e=>{
+    if(e.classList.contains('arrowp')){e.style.transition=`stroke-dashoffset ${1*f}s ease ${t}s, opacity .2s linear ${t+.8*f}s`;t+=.9*f}
+    else{e.style.transition=`stroke-dashoffset ${1.3*f}s ease ${t}s`;t+=.9*f}
+  });
+  F.forEach((e,i)=>{e.style.transition=`opacity ${.9*f}s ease ${.3*f+i*Math.max(.35*f,(t-.3*f)/Math.max(F.length,1))}s`});
+  Lb.forEach((e,i)=>{e.style.transition=`opacity ${.7*f}s ease ${t+.1*f+i*.25*f}s`});
+  g._arr=A;
+  return t+(.1+.25*Lb.length+.8)*f;
+}
+function seqDraw(g,f){
+  const kids=[...g.children],N=[],A=[],O=[];
+  for(let i=0;i<kids.length;i++){
+    const k=kids[i];
+    if(k.tagName==='rect'&&k.classList.contains('fl')&&kids[i+2]&&kids[i+2].classList.contains('lab')){
+      (+k.getAttribute('width')>400?O:N).push([k,kids[i+1],kids[i+2]]);i+=2;
+    }else if(k.classList.contains('arrowp'))A.push(k);
+    else return seqGeneric(g,f);
+  }
+  A.forEach(a=>{a.style.transition='none';a.style.opacity='0'});
+  void g.getBoundingClientRect();
+  const seq=[],m=Math.max(N.length,A.length);
+  if(A.length>=N.length){for(let i=0;i<m;i++){if(A[i])seq.push(A[i]);if(N[i])seq.push(N[i])}}
+  else{for(let i=0;i<m;i++){if(N[i])seq.push(N[i]);if(A[i])seq.push(A[i])}}
+  O.forEach(o=>seq.push(o));
+  let t=0.3*f;
+  seq.forEach(u=>{
+    if(Array.isArray(u)){
+      u[1].style.transition=`stroke-dashoffset ${1.3*f}s ease ${t}s`;
+      u[0].style.transition=`opacity ${.9*f}s ease ${t+.5*f}s`;
+      u[2].style.transition=`opacity ${.7*f}s ease ${t+1*f}s`;
+      t+=1.6*f;
+    }else{
+      u.style.transition=`stroke-dashoffset ${.9*f}s ease ${t}s, opacity .2s linear ${t+.75*f}s`;
+      t+=1.0*f;
+    }
+  });
+  g._arr=A;
+  return t+.6*f;
+}
+
+/* per-topic drawing blocks */
+if(typeof DRAW!=='undefined'&&DRAW.length&&document.querySelector('.drawblk')){
+  document.querySelectorAll('.drawblk').forEach(root=>{
+    const ids=root.dataset.svgs.split(','),idx=DRAW.map((x,i)=>i).filter(i=>ids.includes(DRAW[i].svg)),N=idx.length;
+    const q=s=>root.querySelector(s),SV=[...root.querySelectorAll('.canvas svg')];
+    let DS=0,seen={0:1},playT=null;
+    function setStep(n,f){
+      f=f===0?0:(f||.55);let tot=0;
+      DS=Math.max(0,Math.min(N-1,n));seen[DS]=1;
+      const gi=idx[DS],d=DRAW[gi];
+      SV.forEach(s=>s.toggleAttribute('hidden',s.id!==d.svg));
+      const svg=document.getElementById(d.svg);void svg.getBoundingClientRect();
+      const mine=idx.filter(i=>DRAW[i].svg===d.svg),fin=gi===mine[mine.length-1];
+      svg.classList.toggle('svg-past',!fin);
+      const arrows=[];
+      svg.querySelectorAll('.layer').forEach(g=>{
+        const si=DRAW.findIndex(x=>x.layer===g.id),base=si<0;
+        const was=g.classList.contains('on'),will=base||si<=gi;
+        if(will&&!was){
+          if(si===gi&&f){tot=seqDraw(g,f)||0;if(tot){arrows.push(g);void g.getBoundingClientRect()}}else seqClear(g);
+        }else if(!will&&was)seqClear(g);
+        g.classList.toggle('on',will);
+        g.classList.toggle('past',!base&&si<gi&&!fin);
+        g.classList.toggle('off',!base&&si>gi);
+      });
+      arrows.forEach(g=>{(g._arr||[]).forEach(a=>{a.style.opacity='1'});SEQ.set(g,setTimeout(()=>seqClear(g),tot*1000+300))});
+      q('.sbox').innerHTML=`<span class="k">Step ${DS+1} of ${N} · ${d.k}</span><h3>${d.t}</h3><p class="en">${d.en}</p><p class="ar" lang="ar">${d.ar}</p>`;
+      q('.dots').innerHTML=idx.map((_,i)=>`<button data-s="${i}" class="${i===DS?'on':seen[i]?'seen':''}" aria-label="Step ${i+1}">${i+1}</button>`).join('');
+      q('.sPrev').disabled=DS===0;q('.sNext').disabled=DS===N-1;
+      return tot;
+    }
+    function stopPlay(){clearTimeout(playT);playT=null;q('.sPlay').textContent='Play all'}
+    function resetAll(){
+      const L=[];SV.forEach(s=>s.querySelectorAll('.layer').forEach(g=>L.push(g)));
+      L.forEach(g=>{clearTimeout(SEQ.get(g));g.style.transition='none';g.querySelectorAll('*').forEach(e=>{e.style.transition='none';e.style.opacity=''});g.classList.remove('on','past');g.classList.add('off')});
+      void root.offsetHeight;
+      L.forEach(g=>{g.style.transition='';g.querySelectorAll('*').forEach(e=>{e.style.transition=''})});
+    }
+    q('.dots').addEventListener('click',e=>{const b=e.target.closest('button');if(b){stopPlay();setStep(+b.dataset.s)}});
+    q('.sPrev').addEventListener('click',()=>{stopPlay();setStep(DS-1)});
+    q('.sNext').addEventListener('click',()=>{stopPlay();setStep(DS+1)});
+    q('.sPlay').addEventListener('click',()=>{
+      if(playT){stopPlay();return}
+      resetAll();q('.sPlay').textContent='Stop';
+      const run=n=>{const tot=setStep(n,1);playT=setTimeout(()=>{if(DS>=N-1){stopPlay();return}run(DS+1)},(tot||2)*1000+3800)};
+      run(0);
+    });
+    setStep(0,0);
+  });
+}
+
+/* question cards */
+let deck=CARDS.map((c,i)=>Object.assign({i},c)),pos=0,onlyRev=false,flipped=false;
+const CHIPS=PAGE.chips||['All'].concat([...new Set(CARDS.map(c=>c.ty))]).map(t=>({l:t,f:c=>t==='All'||c.ty===t}));
+let filt=CHIPS[0];
+$('#dchips').innerHTML=CHIPS.map((c,k)=>`<button class="chip${k===0?' on':''}" data-k="${k}">${c.l}</button>`).join('');
+function visible(){return deck.filter(c=>filt.f(c)&&(!onlyRev||S.cards[c.i]==='r'))}
+function renderCard(){
+  const v=visible();flipped=false;$('#flip').classList.remove('on');$('#rGot').disabled=$('#rRev').disabled=true;
+  const got=Object.values(S.cards).filter(x=>x==='g').length,rv=Object.values(S.cards).filter(x=>x==='r').length;
+  $('#score').innerHTML=`<b>${got} got it</b> · <u>${rv} review</u> · ${CARDS.length-got-rv} new`;
+  $('#dbar').style.width=(got/CARDS.length*100)+'%';
+  if(typeof afterCards==='function')afterCards();
+  if(!v.length){$('#inner').innerHTML=`<div class="face"><h3>${onlyRev?'No cards marked Review. Nice.':'No cards'}</h3><p class="hintx">${onlyRev?'Rate cards as Review and they will show here.':''}</p></div>`;return}
+  pos=Math.max(0,Math.min(pos,v.length-1));const c=v[pos];
+  $('#inner').innerHTML=`<button class="face front" id="front" aria-label="Show answer"><div class="tagr"><span class="ty">${c.ty}${c.tl?' · '+c.tl:''}</span><span class="cn">${pos+1} / ${v.length}</span></div><h3>${c.q}</h3>${c.opts?`<div class="opts">${c.opts.map((o,k)=>`<div><b class="mono">${'ABCD'[k]}</b>  ${o}</div>`).join('')}</div>`:''}<p class="hintx">Answer aloud first, then tap to flip.</p></button>
+  <div class="face back" id="backf"><div class="tagr"><span class="ty">Answer</span><span class="cn">${pos+1} / ${v.length}</span></div><div class="ans">${c.a}</div><p class="ar" lang="ar">${c.ar}</p></div>`;
+  $('#front').addEventListener('click',flip);
+}
+function flip(){flipped=!flipped;$('#flip').classList.toggle('on',flipped);$('#rGot').disabled=$('#rRev').disabled=!flipped}
+$('#flip').addEventListener('click',e=>{if(flipped&&e.target.closest('.back'))flip()});
+function rate(r){const v=visible();if(!v.length)return;S.cards[v[pos].i]=r;save();if(pos<v.length-1)pos++;renderCard()}
+$('#rGot').addEventListener('click',()=>rate('g'));$('#rRev').addEventListener('click',()=>rate('r'));
+$('#dNext').addEventListener('click',()=>{pos++;renderCard()});$('#dPrev').addEventListener('click',()=>{pos--;renderCard()});
+$('#dShuf').addEventListener('click',()=>{for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]]}pos=0;renderCard()});
+$('#dRev').addEventListener('click',()=>{onlyRev=!onlyRev;pos=0;$('#dRev').textContent=onlyRev?'Show all cards':'Only review cards';renderCard()});
+$('#dchips').addEventListener('click',e=>{const b=e.target.closest('.chip');if(!b)return;filt=CHIPS[+b.dataset.k];pos=0;document.querySelectorAll('#dchips .chip').forEach(x=>x.classList.toggle('on',x===b));renderCard()});
+renderCard();
+
+
+</script>
+
+</body></html>
